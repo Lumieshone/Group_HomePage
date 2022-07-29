@@ -24,10 +24,10 @@
         </div>
         <!--个人信息-->
         <div class="side-choice">
-          <li class="account-info"><a href="#"><span class="iconfont icon-zhanghu"></span>账户信息</a></li>
-          <li class="personal-info"><a href="#"><span class="iconfont icon-jianjie"></span>个人简介</a></li>
-          <li class="safety"><a href="#"><span class="iconfont icon-lock-full"></span>安全设置</a></li>
-          <li class="friends"><a href="#"><span class="iconfont icon-haoyou"></span>好友列表</a></li>
+          <a class="account-info" href="#"><span class="iconfont icon-zhanghu"></span>账户信息</a>
+          <a class="personal-info" href="#"><span class="iconfont icon-jianjie"></span>个人简介</a>
+          <a class="safety" href="#"><span class="iconfont icon-lock-full"></span>安全设置</a>
+          <a class="friends" href="#"><span class="iconfont icon-haoyou"></span>好友列表</a>
         </div>
         <button class="logout">登出</button>
       </div>
@@ -122,7 +122,7 @@ export default {
     float: left;
     list-style-type: none;
   }
-  .account-info a{
+  .account-info{
     margin: 20px 0 25px;
     padding: 25px;
     display: block;
@@ -130,10 +130,10 @@ export default {
     text-align: center;
     text-decoration: none;
   }
-  .account-info a:hover{
+  .account-info:hover{
     background-color: #E3E7EA;
   }
-  .personal-info a{
+  .personal-info{
     margin: 10px 0 25px;
     padding: 25px;
     display: block;
@@ -141,10 +141,10 @@ export default {
     text-align: center;
     text-decoration: none;
   }
-  .personal-info a:hover{
+  .personal-info:hover{
     background-color: #E3E7EA;
   }
-  .safety a{
+  .safety{
     margin: 10px 0 25px;
     padding: 25px;
     display: block;
@@ -152,10 +152,10 @@ export default {
     text-align: center;
     text-decoration: none;
   }
-  .safety a:hover{
+  .safety:hover{
     background-color: #E3E7EA;
   }
-  .friends a{
+  .friends{
     margin: 10px 0 25px;
     padding: 25px;
     display: block;
@@ -163,7 +163,7 @@ export default {
     text-align: center;
     text-decoration: none;
   }
-  .friends a:hover{
+  .friends:hover{
     background-color: #E3E7EA;
   }
   .logout{
