@@ -26,10 +26,10 @@
         </div>
         <!--个人信息-->
         <div class="side-choice">
-          <li><router-link class="account-info" active-class="active" to="/account" exact><span class="iconfont icon-zhanghu"></span>账户信息</router-link></li>
-          <li><router-link class="profile" active-class="active" to="/profile"><span class="iconfont icon-jianjie"></span>个人简介</router-link></li>
-          <li><router-link class="safety" active-class="active" to="/safety"><span class="iconfont icon-lock-full"></span>安全设置</router-link></li>
-          <li><router-link class="friends" active-class="active" to="/friends"><span class="iconfont icon-haoyou"></span>好友列表</router-link></li>
+          <li><router-link class="lead-button" id="account" active-class="active" to="/account" exact><span class="iconfont icon-zhanghu"></span>账户信息</router-link></li>
+          <li><router-link class="lead-button" active-class="active" to="/profile"><span class="iconfont icon-jianjie"></span>个人简介</router-link></li>
+          <li><router-link class="lead-button" active-class="active" to="/safety"><span class="iconfont icon-lock-full"></span>安全设置</router-link></li>
+          <li><router-link class="lead-button" active-class="active" to="/friends"><span class="iconfont icon-haoyou"></span>好友列表</router-link></li>
         </div>
         <button class="logout">登出</button>
       </div>
@@ -131,34 +131,11 @@ export default {
   li:hover{
     background-color: #E3E7EA;
   }
-  .account-info{
+  #account{
     margin: 20px 0 25px;
-    padding: 25px;
-    display: block;
-    color: #000;
-    text-align: center;
-    text-decoration: none;
   }
 
-  .profile{
-    margin: 10px 0 25px;
-    padding: 25px;
-    display: block;
-    color: #000;
-    text-align: center;
-    text-decoration: none;
-  }
-
-  .safety{
-    margin: 10px 0 25px;
-    padding: 25px;
-    display: block;
-    color: #000;
-    text-align: center;
-    text-decoration: none;
-  }
-
-  .friends{
+  .lead-button{
     margin: 10px 0 25px;
     padding: 25px;
     display: block;
