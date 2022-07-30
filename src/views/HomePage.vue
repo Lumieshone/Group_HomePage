@@ -6,7 +6,9 @@
     </div>
     <!-- 2.content主体内容区 -->
     <div class="container">
-      <div class="conculor content"></div>
+      <div class="conculor content">
+        <router-view></router-view>
+      </div>
       <!-- 侧边栏 -->
       <div class="conculor left">
         <!-- 头像和id、状态 -->
@@ -24,10 +26,10 @@
         </div>
         <!--个人信息-->
         <div class="side-choice">
-          <a class="account-info" href="#"><span class="iconfont icon-zhanghu"></span>账户信息</a>
-          <a class="personal-info" href="#"><span class="iconfont icon-jianjie"></span>个人简介</a>
-          <a class="safety" href="#"><span class="iconfont icon-lock-full"></span>安全设置</a>
-          <a class="friends" href="#"><span class="iconfont icon-haoyou"></span>好友列表</a>
+          <li><router-link class="account-info" active-class="active" to="/account" exact><span class="iconfont icon-zhanghu"></span>账户信息</router-link></li>
+          <li><router-link class="profile" active-class="active" to="/profile"><span class="iconfont icon-jianjie"></span>个人简介</router-link></li>
+          <li><router-link class="safety" active-class="active" to="/safety"><span class="iconfont icon-lock-full"></span>安全设置</router-link></li>
+          <li><router-link class="friends" active-class="active" to="/friends"><span class="iconfont icon-haoyou"></span>好友列表</router-link></li>
         </div>
         <button class="logout">登出</button>
       </div>
@@ -121,6 +123,13 @@ export default {
     font-weight: normal;
     float: left;
     list-style-type: none;
+    overflow: auto;
+  }
+  .active{
+    background-color: #DCDCDC;
+  }
+  li:hover{
+    background-color: #E3E7EA;
   }
   .account-info{
     margin: 20px 0 25px;
@@ -130,10 +139,8 @@ export default {
     text-align: center;
     text-decoration: none;
   }
-  .account-info:hover{
-    background-color: #E3E7EA;
-  }
-  .personal-info{
+
+  .profile{
     margin: 10px 0 25px;
     padding: 25px;
     display: block;
@@ -141,9 +148,7 @@ export default {
     text-align: center;
     text-decoration: none;
   }
-  .personal-info:hover{
-    background-color: #E3E7EA;
-  }
+
   .safety{
     margin: 10px 0 25px;
     padding: 25px;
@@ -152,9 +157,7 @@ export default {
     text-align: center;
     text-decoration: none;
   }
-  .safety:hover{
-    background-color: #E3E7EA;
-  }
+
   .friends{
     margin: 10px 0 25px;
     padding: 25px;
@@ -163,9 +166,7 @@ export default {
     text-align: center;
     text-decoration: none;
   }
-  .friends:hover{
-    background-color: #E3E7EA;
-  }
+
   .logout{
     min-width: 60px;
     margin: 0 100px;
