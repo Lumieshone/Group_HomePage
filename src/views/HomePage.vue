@@ -43,14 +43,8 @@ export default {
   data(){
     return {
       form:{
-        user_name:'',
-        usere_mail:'',
         user_id:'100000',
-        area:'',
-        birthday:'',
         status: 3,
-        game_num: 0,
-        intro:'',
       }
     }
   }
