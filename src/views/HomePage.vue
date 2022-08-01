@@ -43,7 +43,7 @@ export default {
   data(){
     return {
       form:{
-        user_id:'100000',
+        user_id:'114514',
         status: 3,
       }
     }
@@ -143,16 +143,22 @@ export default {
     margin: 0 100px;
     width: 30%;
     height: 40px;
-    border-color: rgba(0,0,0,.87);
-    border-width: thin;
     outline: none;
-    background-color: #fff;
     color: rgba(0,0,0,.87);
     font-size: 0.9em;
     cursor: pointer;
+    line-height: 1rem;
+    white-space: normal;
+    border: thin solid #c8c8c8;
+    box-sizing: border-box;
+    border-radius: 2px;
+    background-color: #fff;
+  }
+  .logout:hover{
+    background-color: #F5F5F5;
   }
   .content{
     width: 100%;
-    background-color: #FAFAFA;
+    background-color: #fff;
   }
 </style>

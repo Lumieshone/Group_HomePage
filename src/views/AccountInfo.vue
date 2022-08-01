@@ -32,12 +32,12 @@ export default {
   data(){
     return {
       form:{
-        user_email:'2605825885@qq.com',
-        user_id:'100000',
-        game_num: 10,
+        user_email:'1919810@qq.com',
+        user_id:'114514',
+        game_num: 90,
       },
       iframeData:{
-        area:''
+        area:'下北泽大学'
       }
     }
   },
@@ -100,10 +100,15 @@ button{
   height: 40px;
   line-height: 1rem;
   white-space: normal;
-  border: .1rem solid #c8c8c8;
+  border: thin solid #c8c8c8;
   box-sizing: border-box;
+  border-radius: 2px;
+  background-color: #fff;
   position: absolute;
   right: 0;
+}
+button:hover{
+  background-color: #F5F5F5;
 }
 .part{
   padding: 20px;
