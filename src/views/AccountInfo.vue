@@ -8,15 +8,13 @@
       </div>
       <div class="part" key="email">
         <span class="label-title">电子邮箱</span>
-        <span class="label-content">{{form.usere_mail}}</span>
+        <span class="label-content">{{form.user_email}}</span>
       </div>
       <div class="part" key="area">
         <span class="label-title">地区</span>
-        <span class="label-content">{{form.area}}</span>
+        <span class="label-content">{{iframeData.area}}</span>
         <div class="edit-button">
-          <button class="button-area">
-            编辑
-          </button>
+          <button type="button" class="layui-btn  layui-btn-normal  layui-btn-sm" @click="edit()">编辑</button>
         </div>
       </div>
       <div class="part" key="game-num">
@@ -28,16 +26,40 @@
 </template>
 
 <script>
+import EditArea from './EditArea'
 export default {
   name: "AccountInfo",
   data(){
     return {
       form:{
-        usere_mail:'2605825885@qq.com',
+        user_email:'2605825885@qq.com',
         user_id:'100000',
-        area:'China',
         game_num: 10,
+      },
+      iframeData:{
+        area:''
       }
+    }
+  },
+  components: {
+    EditArea
+  },
+  methods: {
+    edit() {
+      this.$layer.iframe({
+        type: 2,
+        title: "地区",
+        area: ['200px', '200px'],
+        shade: true,
+        offset: 'auto',
+        content: {
+          content: EditArea,//传递的编辑组件主线
+          parent: this,
+          data: {
+            iframeData:this.iframeData
+          }
+        }
+      })
     }
   }
 }
@@ -73,7 +95,7 @@ export default {
 .edit-button{
   margin-bottom: 40px;
 }
-.button-area{
+button{
   width: 60px;
   height: 40px;
   line-height: 1rem;

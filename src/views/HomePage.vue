@@ -46,7 +46,7 @@ export default {
         user_name:'',
         usere_mail:'',
         user_id:'100000',
-        area:'China',
+        area:'',
         birthday:'',
         status: 3,
         game_num: 0,
