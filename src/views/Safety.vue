@@ -13,7 +13,7 @@
       </div>
       <div class="part">
         <span class="label-title">密码</span>
-        <span class="label-content">{{star}}</span>
+        <span class="label-content">{{iframeData.star}}</span>
         <div class="edit-button">
           <button class="layui-btn  layui-btn-normal  layui-btn-sm" @click="editpwd()">
             修改
@@ -31,11 +31,11 @@ export default {
   name: "Safety",
   data() {
     return {
-      star: '',
       iframeData: {
         id: this.$route.query.id,
         password: this.$route.query.password,
-        email:'1919810@qq.com'
+        email:'1919810@qq.com',
+        star: ''
       }
     }
   },
@@ -47,8 +47,8 @@ export default {
     editmail() {
       this.$layer.iframe({
         type: 2,
-        title: "个人信息",
-        area: ['300px', '200px'],
+        title: "修改邮箱",
+        area: ['360px', '320px'],
         shade: true,
         offset: 'auto',
         content: {
@@ -63,22 +63,19 @@ export default {
     editpwd() {
       this.$layer.iframe({
         type: 2,
-        title: "个人信息",
-        area: ['300px', '400px'],
+        title: "修改密码",
+        area: ['360px', '400px'],
         shade: true,
         offset: 'auto',
         content: {
           content: EditPwd,//传递的编辑组件主线
           parent: this,
           data: {
-            iframeData:{
-              id: this.iframeData.id,
-              password_old: this.iframeData.password
-            }
+            iframeData: this.iframeData
           }
         }
       })
-    }
+    },
   },
   created() {
     const self = this;
@@ -111,9 +108,9 @@ export default {
   mounted() {
     // 循环遍历拿到密钥的长度
     for (let i = 0; i < this.iframeData.password.length; i++) {
-      let star = this.star.split('') //分割成字符串数组
+      let star = this.iframeData.star.split('') //分割成字符串数组
       star.splice(i, i, '•') //添加到数组
-      this.star = star.join('') //将数组转换为字符串
+      this.iframeData.star = star.join('') //将数组转换为字符串
     }
   }
 }

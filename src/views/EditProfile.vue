@@ -1,17 +1,17 @@
 <template>
   <div class="editprofile container">
-    <form class="form" @submit="editProfile">
+    <form class="form">
       <div class="form-group">
         <label>昵称</label>
         <input type="text" required placeholder="请填写您的新昵称" autocomplete="off" class="form-name" v-model="form.name" >
         <label>生日</label>
-        <input type="date" min="1979-12-31" max="2021-12-31" required placeholder="请填写您的生日" autocomplete="off" class="form-birthday" v-model="form.birthday">
+        <input type="date" max="2021-12-31" min="1979-12-31" required placeholder="请填写您的生日" autocomplete="off" class="form-birthday" v-model="form.birthday">
         <label>地区</label>
         <input type="text" required placeholder="请填写您所在的地区" autocomplete="off" class="form-area" v-model="form.area">
         <label>自我介绍</label>
         <input type="text" required placeholder="请填写您的自我介绍" autocomplete="off" class="form-intro" v-model="form.intro">
       </div>
-      <button type="submit" class="btn btn-info">立即提交</button>
+      <button type="submit" @click="editProfile" class="btn btn-info">立即提交</button>
     </form>
   </div>
 </template>
@@ -67,14 +67,8 @@ export default {
       }
       e.preventDefault()
     },
-    watch: {
-      iframeData: {
-        handler: function () {
-          this.form = this.iframeData;
-        },
-        deep: true,
-        immediate: true
-      }
+    cancel() {
+      this.$layer.close(this.layerid);
     }
   }
 }

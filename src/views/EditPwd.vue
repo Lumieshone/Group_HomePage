@@ -1,23 +1,31 @@
 <template>
-  <div class="checkpwd container">
-    <form class="form" @submit="">
+  <div class="editpwd container">
+    <form class="form">
       <div class="form-group">
-        <label>请输入您的密码</label>
-        <input type="text" required placeholder="请填写您的密码" autocomplete="off" class="form-name" v-model="form.password" >
+        <label>旧密码</label>
+        <input type="text" required placeholder="请填写您原来的密码" autocomplete="off" class="form-password" v-model="password_old"/>
+        <label>新密码</label>
+        <input type="password" required placeholder="请填写您的新密码" autocomplete="off" class="form-email" v-model="form.password"/>
+        <label>确认密码</label>
+        <input type="password" required placeholder="请确认您的新密码" autocomplete="off" class="form-email" v-model="password_new"/>
       </div>
-      <button type="submit" class="btn btn-info">立即提交</button>
+      <button type="submit" @click="editPwd" class="btn btn-info">立即提交</button>
     </form>
   </div>
 </template>
 
 <script>
 export default {
-  name: "CheckPwd",
+  name: "EditPwd",
   data(){
     return{
+      password_old: '',
+      password_new: '',
       form: {
-        id: this.lydata.iframeData.id,
-        password: ''
+        star: '',
+        id: this.iframeData.id,
+        email: this.iframeData.email,
+        password: '',
       }
     };
   },
@@ -40,41 +48,47 @@ export default {
     }
   },
   methods:{
-    editProfile(e){
-      if(!this.form.password){
+    editPwd(e){
+      if(!this.form.password || !this.password_old || !this.password_new){
         this.$layer.msg("请添加对应信息！")
       }else{
-        // this.$axios({
-        //   method:'post',
-        //   url: 'api/user/editPassword',
-        //   data: {
-        //     id: this.form.id
-        //     password: this.form.password
-        //   }
-        // })
-        // .then(function (response) {
-        this.$layer.close(this.layerid);
-        this.$layer.msg("身份验证通过");
-        // });
+        if((this.password_old === this.lydata.iframeData.password) && (this.password_new === this.form.password)){
+          // this.$axios({
+          //   method:'post',
+          //   url: 'api/user/editPassword',
+          //   data: {
+          //     id: this.form.id
+          //     password: this.form.password
+          //   }
+          // })
+          // .then(function (response) {
+          // 循环遍历拿到密钥的长度
+          for (let i = 0; i < this.form.password.length; i++) {
+            let star = this.form.star.split('') //分割成字符串数组
+            star.splice(i, i, '•') //添加到数组
+            this.form.star = star.join('') //将数组转换为字符串
+          }
+          this.$parent.$data.iframeData = Object.assign({}, this.form);
+          this.$layer.close(this.layerid);
+          this.$layer.msg("修改密码成功！");
+          // });
+        }
+        else if(this.password_old !== this.lydata.iframeData.password){
+          this.$layer.msg("您输入的旧密码有误，请重新输入！");
+        }
+        else{
+          this.$layer.msg("两次输入新密码不一致，请重新输入！");
+        }
         e.preventDefault()
       }
       e.preventDefault()
-    },
-    watch: {
-      iframeData: {
-        handler: function () {
-          this.form = this.iframeData;
-        },
-        deep: true,
-        immediate: true
-      }
     }
   }
 }
 </script>
 
 <style scoped>
-.checkpwd{
+.editpwd{
   margin:10px 20px 20px 23px;
 }
 .form{
