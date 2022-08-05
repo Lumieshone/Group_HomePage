@@ -2,20 +2,22 @@
   <div class="AccountPage">
     <div class="top-text">您的信息</div>
     <div class="AccountList">
+      <div class="part" id="photo">
+        <span class="label-title">头像</span>
+        <img class="picture_item" src="../assets/avator.png" alt="默认头像" />
+        <div class="edit-button">
+          <button class="layui-btn  layui-btn-normal  layui-btn-sm">
+            更换头像
+          </button>
+        </div>
+      </div>
       <div class="part" key="id">
         <span class="label-title">账户ID</span>
-        <span class="label-content">{{form.user_id}}</span>
+        <span class="label-content">{{form.id}}</span>
       </div>
       <div class="part" key="email">
         <span class="label-title">电子邮箱</span>
-        <span class="label-content">{{form.user_email}}</span>
-      </div>
-      <div class="part" key="area">
-        <span class="label-title">地区</span>
-        <span class="label-content">{{iframeData.area}}</span>
-        <div class="edit-button">
-          <button type="button" class="layui-btn  layui-btn-normal  layui-btn-sm" @click="edit()">编辑</button>
-        </div>
+        <span class="label-content">{{form.email}}</span>
       </div>
       <div class="part" key="game-num">
         <span class="label-title">游戏数量</span>
@@ -26,41 +28,46 @@
 </template>
 
 <script>
-import EditArea from './EditArea'
 export default {
   name: "AccountInfo",
   data(){
     return {
       form:{
-        user_email:'1919810@qq.com',
-        user_id:'114514',
-        game_num: 90,
-      },
-      iframeData:{
-        area:'下北泽大学'
+        email: '1919810@qq.com',
+        id: this.$route.query.id,
+        game_num: 10,
       }
     }
   },
-  components: {
-    EditArea
-  },
   methods: {
-    edit() {
-      this.$layer.iframe({
-        type: 2,
-        title: "地区",
-        area: ['200px', '200px'],
-        shade: true,
-        offset: 'auto',
-        content: {
-          content: EditArea,//传递的编辑组件主线
-          parent: this,
-          data: {
-            iframeData:this.iframeData
+  },
+  created() {
+    const self = this;
+    self.$axios({
+      method: 'post',
+      url: 'api/user/getUserInfo',
+      data: {
+        id: self.iframeData.id
+      }
+    })
+        .then(res => {
+          switch (res.data.result) {
+            case 1:
+              alert("获取账户信息成功！");
+              break;
+            case 0:
+              alert("获取账户信息失败！");
+              break;
+            case -1:
+              alert("获取数据出现问题！");
+              break;
           }
-        }
-      })
-    }
+          self.iframeData.email = res.data.email
+          self.iframeData.gamenum = res.data.game_num
+        })
+        .catch(err => {
+          console.log(err);
+        })
   }
 }
 </script>
@@ -93,22 +100,26 @@ export default {
   font-weight: 700;
 }
 .edit-button{
-  margin-bottom: 40px;
+  margin-top: 21%;
 }
 button{
-  width: 60px;
+  width: 80px;
   height: 40px;
-  line-height: 1rem;
+  line-height: 1.8rem;
   white-space: normal;
   border: thin solid #c8c8c8;
   box-sizing: border-box;
   border-radius: 2px;
   background-color: #fff;
-  position: absolute;
-  right: 0;
+  position: relative;
 }
 button:hover{
   background-color: #F5F5F5;
+}
+.picture_item{
+  line-height: 1.8rem;
+  width: 25%;
+  position: relative;
 }
 .part{
   padding: 20px;

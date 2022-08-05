@@ -3,15 +3,6 @@
     <div class="top-text">简介</div>
     <div class="explainList">
       <div class="part">
-        <span class="label-title">头像</span>
-        <img class="picture_item" src="../assets/avator.png" alt="默认头像" />
-        <div class="edit-button">
-          <button class="layui-btn  layui-btn-normal  layui-btn-sm" @click="edit()">
-            编辑
-          </button>
-        </div>
-      </div>
-      <div class="part">
         <span class="label-title">昵称</span>
         <span class="label-content">{{iframeData.name}}</span>
         <div class="edit-button">
@@ -30,8 +21,15 @@
         </div>
       </div>
       <div class="part">
+        <span class="label-title">地区</span>
+        <span class="label-content">{{iframeData.area}}</span>
+        <div class="edit-button">
+          <button class="layui-btn  layui-btn-normal  layui-btn-sm" @click="edit()">编辑</button>
+        </div>
+      </div>
+      <div class="part">
         <span class="label-title">自我介绍</span>
-        <span class="label-content">{{iframeData.introduction}}</span>
+        <span class="label-content">{{iframeData.intro}}</span>
         <div class="edit-button">
           <button class="layui-btn  layui-btn-normal  layui-btn-sm" @click="edit()">
             编辑
@@ -44,14 +42,22 @@
 
 <script>
 import EditProfile from './EditProfile';
+export function getZero(num){
+  if(parseInt(num) < 10){
+    num = '0' + num;
+  }
+  return num;
+}
 export default {
   name: "Profile",
   data() {
     return {
       iframeData: {
+        id: this.$route.query.id,
         name: '田所浩二',
-        introduction:'逸一时误一时',
-        birthday:'1919-8-10',
+        birthday: '1919-08-10',
+        area: '下北泽',
+        intro: '逸一时误一时'
       }
     }
   },
@@ -63,7 +69,7 @@ export default {
       this.$layer.iframe({
         type: 2,
         title: "个人信息",
-        area: ['360px', '400px'],
+        area: ['360px', '500px'],
         shade: true,
         offset: 'auto',
         content: {
@@ -75,6 +81,40 @@ export default {
         }
       })
     }
+  },
+  created() {
+    const self = this;
+    self.$axios({
+      method: 'post',
+      url: 'api/user/getUserInfo',
+      data: {
+        id: self.iframeData.id
+      }
+    })
+        .then(res => {
+          switch (res.data.result) {
+            case 1:
+              alert("获取个人信息成功！");
+              break;
+            case 0:
+              alert("获取个人信息失败！");
+              break;
+            case -1:
+              alert("获取数据出现问题！");
+              break;
+          }
+          self.iframeData.name = res.data.name
+          let date = new Date(res.data.birthday.replace(/\//g, "-")),
+              Y = date.getFullYear(),
+              M = date.getMonth() + 1,
+              D = date.getDate()
+          self.iframeData.birthday = Y + '-' + getZero(M) + '-' + getZero(D);
+          self.iframeData.intro = res.data.intro
+          self.iframeData.area = res.data.area
+        })
+        .catch(err => {
+          console.log(err);
+        })
   }
 }
 </script>
@@ -115,11 +155,6 @@ export default {
 }
 .label-content{
   font-weight: 700;
-}
-.picture_item{
-  line-height: 1.8rem;
-  width: 40px;
-  position: relative;
 }
 button{
   width: 60px;

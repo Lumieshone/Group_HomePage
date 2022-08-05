@@ -26,7 +26,10 @@ const routes = [
       {
         path: 'safety',
         name: 'safety',
-        component: Safety
+        component: Safety,
+        meta:{
+          requireAuth: true
+        }
       },
       {
         path: 'friends',

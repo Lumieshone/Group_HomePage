@@ -16,7 +16,7 @@
           <div class="head-portrait">
             <img src="../assets/avator.png" alt="默认头像" />
           </div>
-          <div class="head-text">用户ID：{{form.user_id}}<br/>状态：
+          <div class="head-text">用户ID：{{iframeData.id}}<br/>状态：
             <span v-if="form.status===0">离线</span>
             <span v-if="form.status===1">在线</span>
             <span v-if="form.status===2">隐身</span>
@@ -26,10 +26,18 @@
         </div>
         <!--个人信息-->
         <div class="side-choice">
-          <li><router-link class="lead-button" id="account" active-class="active" to="/account" exact><span class="iconfont icon-zhanghu"></span>账户信息</router-link></li>
-          <li><router-link class="lead-button" active-class="active" to="/profile"><span class="iconfont icon-jianjie"></span>个人简介</router-link></li>
-          <li><router-link class="lead-button" active-class="active" to="/safety"><span class="iconfont icon-lock-full"></span>安全设置</router-link></li>
-          <li><router-link class="lead-button" active-class="active" to="/friends"><span class="iconfont icon-haoyou"></span>好友列表</router-link></li>
+          <li><router-link class="lead-button" id="account" active-class="active" :to="{path:'/account',query:{id:this.iframeData.id,}}" exact>
+            <span class="iconfont icon-zhanghu"></span>账户信息
+          </router-link></li>
+          <li><router-link class="lead-button" active-class="active" :to="{path:'/profile',query:{id:this.iframeData.id}}">
+            <span class="iconfont icon-jianjie"></span>个人简介
+          </router-link></li>
+          <li><router-link class="lead-button" active-class="active" :to="{path:'/safety',query:{id:this.iframeData.id, password:this.iframeData.password}}">
+            <span class="iconfont icon-lock-full"></span>安全设置
+          </router-link></li>
+          <li><router-link class="lead-button" active-class="active" to="/friends">
+            <span class="iconfont icon-haoyou"></span>好友列表
+          </router-link></li>
         </div>
         <button class="logout">登出</button>
       </div>
@@ -43,10 +51,44 @@ export default {
   data(){
     return {
       form:{
-        user_id:'114514',
         status: 3,
+      },
+      iframeData:{
+        id: '114514',
+        password: '123456',
+        profile_photo: ''
       }
     }
+  },
+  methods: {
+  },
+  created() {
+    const self = this;
+    self.$axios({
+      method:'post',
+      url: 'api/user/getUserInfo',
+      data: {
+        id:self.iframeData.id
+      }
+    })
+        .then( res => {
+          switch(res.data.result){
+                case 1:
+                      alert("信息初始化成功！");
+                      break;
+                case 0:
+                      alert("信息初始化失败！");
+                      break;
+                case -1:
+                      alert("获取数据出现问题！");
+                      break;
+          }
+          self.form.status = res.data.status
+          self.iframeData.password = res.data.password
+        })
+        .catch( err => {
+          console.log(err);
+        })
   }
 }
 </script>

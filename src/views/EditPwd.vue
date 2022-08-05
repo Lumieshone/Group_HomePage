@@ -1,9 +1,9 @@
 <template>
-  <div class="editarea container">
-    <form class="form" @submit="editArea">
+  <div class="checkpwd container">
+    <form class="form" @submit="">
       <div class="form-group">
-        <label>地区</label>
-        <input type="text" required placeholder="请填写您所在的地区" autocomplete="off" class="form-control" v-model="form.area">
+        <label>请输入您的密码</label>
+        <input type="text" required placeholder="请填写您的密码" autocomplete="off" class="form-name" v-model="form.password" >
       </div>
       <button type="submit" class="btn btn-info">立即提交</button>
     </form>
@@ -12,12 +12,13 @@
 
 <script>
 export default {
-  name: "EditArea",
+  name: "CheckPwd",
   data(){
     return{
-     form: {
-       area:''
-     }
+      form: {
+        id: this.lydata.iframeData.id,
+        password: ''
+      }
     };
   },
   props:{
@@ -25,7 +26,7 @@ export default {
       type: String,
       default: ""
     },
-    form: {//传递的数据
+    iframeData: {//传递的数据
       type: Object,
       default: () => {
         return {};
@@ -39,21 +40,21 @@ export default {
     }
   },
   methods:{
-    editArea(e){
-      if(!this.form.area){
+    editProfile(e){
+      if(!this.form.password){
         this.$layer.msg("请添加对应信息！")
       }else{
         // this.$axios({
         //   method:'post',
-        //   url: 'api/user/area',
+        //   url: 'api/user/editPassword',
         //   data: {
-        //     area: this.form.area
+        //     id: this.form.id
+        //     password: this.form.password
         //   }
         // })
         // .then(function (response) {
-          this.$parent.$data.iframeData = Object.assign({}, this.form);
-          this.$layer.close(this.layerid);
-          this.$layer.msg("修改地区信息成功！");
+        this.$layer.close(this.layerid);
+        this.$layer.msg("身份验证通过");
         // });
         e.preventDefault()
       }
@@ -73,8 +74,8 @@ export default {
 </script>
 
 <style scoped>
-.editarea{
-  margin:8px 20px 20px 20px;
+.checkpwd{
+  margin:10px 20px 20px 23px;
 }
 .form{
   display: flex;
@@ -96,15 +97,15 @@ input{
   border-style: solid;
   border-width: 2px;
   box-sizing: border-box;
-  height: 100%;
   padding: 8px 20px;
-  width: 100%;
+  width: 150%;
+  height: 150%;
 }
 button{
   width: 80px;
-  height: 30px;
-  margin-left: 60px;
-  margin-top:20px;
+  height: 40px;
+  margin-left: 110px;
+  margin-top:40px;
   white-space: normal;
   border: 1px solid #c8c8c8;
   box-sizing: border-box;
@@ -118,6 +119,7 @@ label{
   color: rgba(0,0,0,.87);
   line-height: 30px;
   font-size: 15px;
-  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 5px;
 }
 </style>
