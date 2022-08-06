@@ -54,10 +54,10 @@ export default {
     return {
       iframeData: {
         id: this.$route.query.id,
-        name: '田所浩二',
+        name: '',
         birthday: '1919-08-10',
-        area: '下北泽',
-        intro: '逸一时误一时'
+        area: '',
+        intro: ''
       }
     }
   },

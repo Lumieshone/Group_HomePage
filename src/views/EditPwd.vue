@@ -62,15 +62,23 @@ export default {
           //   }
           // })
           // .then(function (response) {
-          // 循环遍历拿到密钥的长度
-          for (let i = 0; i < this.form.password.length; i++) {
-            let star = this.form.star.split('') //分割成字符串数组
-            star.splice(i, i, '•') //添加到数组
-            this.form.star = star.join('') //将数组转换为字符串
-          }
-          this.$parent.$data.iframeData = Object.assign({}, this.form);
-          this.$layer.close(this.layerid);
-          this.$layer.msg("修改密码成功！");
+          // switch (res.data.result) {
+          //   case 1:
+          //     console.log("修改密码成功！");
+              // 循环遍历拿到密钥的长度
+              for (let i = 0; i < this.form.password.length; i++) {
+                let star = this.form.star.split('') //分割成字符串数组
+                star.splice(i, i, '•') //添加到数组
+                this.form.star = star.join('') //将数组转换为字符串
+              }
+              this.$parent.$data.iframeData = Object.assign({}, this.form);
+              this.$layer.close(this.layerid);
+              this.$layer.msg("修改密码成功！");
+          //     break;
+          //   case 0:
+          //     console.log("修改密码失败！");
+          //     break;
+          // }
           // });
         }
         else if(this.password_old !== this.lydata.iframeData.password){

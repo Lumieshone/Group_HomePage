@@ -54,9 +54,17 @@ export default {
           //   }
           // })
           // .then(function (response) {
-          this.$parent.$data.iframeData = Object.assign({}, this.form);
-          this.$layer.close(this.layerid);
-          this.$layer.msg("修改邮箱成功！");
+          // switch (res.data.result) {
+          //   case 1:
+          //     console.log("修改邮箱成功！");
+              this.$parent.$data.iframeData = Object.assign({}, this.form);
+              this.$layer.close(this.layerid);
+              this.$layer.msg("修改邮箱成功！");
+          //     break;
+          //   case 0:
+          //     console.log("修改邮箱失败！");
+          //     break;
+          // }
           // });
         }
         else{

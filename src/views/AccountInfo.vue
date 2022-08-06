@@ -33,9 +33,9 @@ export default {
   data(){
     return {
       form:{
-        email: '1919810@qq.com',
+        email: '',
         id: this.$route.query.id,
-        game_num: 10,
+        game_num: 0,
       }
     }
   },
@@ -47,7 +47,7 @@ export default {
       method: 'post',
       url: 'api/user/getUserInfo',
       data: {
-        id: self.iframeData.id
+        id: self.form.id
       }
     })
         .then(res => {
@@ -63,7 +63,7 @@ export default {
               break;
           }
           self.iframeData.email = res.data.email
-          self.iframeData.gamenum = res.data.game_num
+          self.iframeData.game_num = res.data.game_num
         })
         .catch(err => {
           console.log(err);
