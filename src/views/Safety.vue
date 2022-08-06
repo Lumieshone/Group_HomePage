@@ -32,9 +32,9 @@ export default {
   data() {
     return {
       iframeData: {
-        id: this.$route.query.id,
-        password: this.$route.query.password,
-        email:'1919810@qq.com',
+        id: this.$route.params.id,
+        password: this.$route.params.password,
+        email:'',
         star: ''
       }
     }

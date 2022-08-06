@@ -53,9 +53,9 @@ export default {
   data() {
     return {
       iframeData: {
-        id: this.$route.query.id,
+        id: this.$route.params.id,
         name: '',
-        birthday: '1919-08-10',
+        birthday: '',
         area: '',
         intro: ''
       }

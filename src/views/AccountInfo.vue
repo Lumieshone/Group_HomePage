@@ -34,7 +34,7 @@ export default {
     return {
       form:{
         email: '',
-        id: this.$route.query.id,
+        id: this.$route.params.id,
         game_num: 0,
       }
     }

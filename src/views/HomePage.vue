@@ -26,13 +26,13 @@
         </div>
         <!--个人信息-->
         <div class="side-choice">
-          <li><router-link class="lead-button" id="account" active-class="active" :to="{path:'/account',query:{id:this.iframeData.id,}}" exact>
+          <li><router-link class="lead-button" id="account" active-class="active" :to="{name:'account',params:{id:this.iframeData.id,}}" exact>
             <span class="iconfont icon-zhanghu"></span>账户信息
           </router-link></li>
-          <li><router-link class="lead-button" active-class="active" :to="{path:'/profile',query:{id:this.iframeData.id}}">
+          <li><router-link class="lead-button" active-class="active" :to="{name:'profile',params:{id:this.iframeData.id}}">
             <span class="iconfont icon-jianjie"></span>个人简介
           </router-link></li>
-          <li><router-link class="lead-button" active-class="active" :to="{path:'/safety',query:{id:this.iframeData.id, password:this.iframeData.password}}">
+          <li><router-link class="lead-button" active-class="active" :to="{name:'safety',params:{id:this.iframeData.id, password:this.iframeData.password}}">
             <span class="iconfont icon-lock-full"></span>安全设置
           </router-link></li>
           <li><router-link class="lead-button" active-class="active" to="/friends">
