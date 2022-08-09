@@ -84,6 +84,7 @@ export default {
   },
   created() {
     const self = this;
+    this.$loading.show();
     self.$axios({
       method: 'post',
       url: 'api/user/getUserInfo',
@@ -94,23 +95,26 @@ export default {
         .then(res => {
           switch (res.data.result) {
             case 1:
-              alert("获取个人信息成功！");
+              console.log("获取个人信息成功！");
+              setTimeout(() => {
+                this.$loading.hide();
+              }, 0);
+              self.iframeData.name = res.data.name
+              let date = new Date(res.data.birthday.replace(/\//g, "-")),
+                  Y = date.getFullYear(),
+                  M = date.getMonth() + 1,
+                  D = date.getDate()
+              self.iframeData.birthday = Y + '-' + getZero(M) + '-' + getZero(D);
+              self.iframeData.intro = res.data.intro
+              self.iframeData.area = res.data.area
               break;
             case 0:
-              alert("获取个人信息失败！");
+              console.log("获取个人信息失败！");
               break;
             case -1:
-              alert("获取数据出现问题！");
+              console.log("获取数据出现问题！");
               break;
           }
-          self.iframeData.name = res.data.name
-          let date = new Date(res.data.birthday.replace(/\//g, "-")),
-              Y = date.getFullYear(),
-              M = date.getMonth() + 1,
-              D = date.getDate()
-          self.iframeData.birthday = Y + '-' + getZero(M) + '-' + getZero(D);
-          self.iframeData.intro = res.data.intro
-          self.iframeData.area = res.data.area
         })
         .catch(err => {
           console.log(err);

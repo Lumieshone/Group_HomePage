@@ -33,7 +33,7 @@ export default {
     return {
       iframeData: {
         id: this.$route.params.id,
-        password: this.$route.params.password,
+        password: '',
         email:'',
         star: ''
       }
@@ -75,10 +75,11 @@ export default {
           }
         }
       })
-    },
+    }
   },
   created() {
     const self = this;
+    this.$loading.show();
     self.$axios({
       method: 'post',
       url: 'api/user/getUserInfo',
@@ -89,29 +90,31 @@ export default {
         .then(res => {
           switch (res.data.result) {
             case 1:
-              alert("获取安全信息成功！");
+              console.log("获取安全信息成功！");
+              setTimeout(() => {
+                this.$loading.hide();
+              }, 0);
+              self.iframeData.email = res.data.email;
+              self.iframeData.password = res.data.password;
+              // 循环遍历拿到密钥的长度
+              for (let i = 0; i < self.iframeData.password.length; i++) {
+                let star = self.iframeData.star.split('') //分割成字符串数组
+                star.splice(i, i, '•') //添加到数组
+                self.iframeData.star = star.join('') //将数组转换为字符串
+              }
+              console.log(self.iframeData.password);
               break;
             case 0:
-              alert("获取安全信息失败！");
+              console.log("获取安全信息失败！");
               break;
             case -1:
-              alert("获取数据出现问题！");
+              console.log("获取数据出现问题！");
               break;
           }
-          self.iframeData.email = res.data.email
-          self.iframeData.password = res.data.password
         })
         .catch(err => {
           console.log(err);
         })
-  },
-  mounted() {
-    // 循环遍历拿到密钥的长度
-    for (let i = 0; i < this.iframeData.password.length; i++) {
-      let star = this.iframeData.star.split('') //分割成字符串数组
-      star.splice(i, i, '•') //添加到数组
-      this.iframeData.star = star.join('') //将数组转换为字符串
-    }
   }
 }
 </script>

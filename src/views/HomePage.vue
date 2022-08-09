@@ -14,9 +14,9 @@
         <!-- 头像和id、状态 -->
         <div class="top-item">
           <div class="head-portrait">
-            <img src="../assets/avator.png" alt="默认头像" />
+            <img :src="iframeData.profile_photo" alt="默认头像" />
           </div>
-          <div class="head-text">用户ID：{{iframeData.id}}<br/>状态：
+          <div class="head-text">ID：{{iframeData.id}}<br/>状态：
             <span v-if="form.status===0">离线</span>
             <span v-if="form.status===1">在线</span>
             <span v-if="form.status===2">隐身</span>
@@ -26,13 +26,13 @@
         </div>
         <!--个人信息-->
         <div class="side-choice">
-          <li><router-link class="lead-button" id="account" active-class="active" :to="{name:'account',params:{id:this.iframeData.id,}}" exact>
+          <li><router-link class="lead-button" id="account" active-class="active" :to="{name:'account',params:{id:this.iframeData.id}}" exact>
             <span class="iconfont icon-zhanghu"></span>账户信息
           </router-link></li>
           <li><router-link class="lead-button" active-class="active" :to="{name:'profile',params:{id:this.iframeData.id}}">
             <span class="iconfont icon-jianjie"></span>个人简介
           </router-link></li>
-          <li><router-link class="lead-button" active-class="active" :to="{name:'safety',params:{id:this.iframeData.id, password:this.iframeData.password}}">
+          <li><router-link class="lead-button" active-class="active" :to="{name:'safety',params:{id:this.iframeData.id}}">
             <span class="iconfont icon-lock-full"></span>安全设置
           </router-link></li>
           <li><router-link class="lead-button" active-class="active" to="/friends">
@@ -48,6 +48,11 @@
 <script>
 export default {
   name: "home-page",
+  provide(){
+    return{
+      updateAvatar: this.updateAvatar
+    }
+  },
   data(){
     return {
       form:{
@@ -55,12 +60,15 @@ export default {
       },
       iframeData:{
         id: '114514',
-        password: '123456',
-        profile_photo: ''
+        password: '',
+        profile_photo: require('../assets/avatar.png')
       }
     }
   },
   methods: {
+    updateAvatar(ImgUrl){
+      this.iframeData.profile_photo = ImgUrl
+    }
   },
   created() {
     const self = this;
@@ -142,11 +150,11 @@ export default {
     width: 30%;
   }
   .head-portrait img{
-    width: 85%;
-    padding: 20px;
+    width: 75%;
+    padding: 20px 0 20px 38px;
   }
   .head-text{
-    padding: 38px;
+    padding: 40px 0 0 30px;
     word-break: break-all;
     font-style: italic;
     word-wrap: break-word;

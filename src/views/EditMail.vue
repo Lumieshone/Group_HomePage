@@ -45,27 +45,27 @@ export default {
         this.$layer.msg("请添加对应信息！")
       }else{
         if(this.password === this.lydata.iframeData.password){
-          // this.$axios({
-          //   method:'post',
-          //   url: 'api/user/editEmail',
-          //   data: {
-          //     id: this.form.id
-          //     email: this.form.email
-          //   }
-          // })
-          // .then(function (response) {
-          // switch (res.data.result) {
-          //   case 1:
-          //     console.log("修改邮箱成功！");
+          this.$axios({
+            method:'post',
+            url: 'api/user/editEmail',
+            data: {
+              id: this.form.id,
+              email: this.form.email
+            }
+          })
+          .then(res => {
+          switch (res.data.result) {
+            case 1:
+              console.log("修改邮箱成功！");
               this.$parent.$data.iframeData = Object.assign({}, this.form);
               this.$layer.close(this.layerid);
               this.$layer.msg("修改邮箱成功！");
-          //     break;
-          //   case 0:
-          //     console.log("修改邮箱失败！");
-          //     break;
-          // }
-          // });
+              break;
+            case 0:
+              console.log("修改邮箱失败！");
+              break;
+          }
+          });
         }
         else{
           this.$layer.msg("您输入的密码有误，请重新输入！");

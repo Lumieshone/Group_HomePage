@@ -1,5 +1,4 @@
 <template>
-  <h2>两堆字</h2>
 </template>
 
 <script>
