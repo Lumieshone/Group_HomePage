@@ -68,7 +68,7 @@ export default {
   },
   created() {
     const self = this;
-    // this.$loading.show();
+    this.$loading.show();
     self.$axios({
       method: 'post',
       url: 'api/user/getUserInfo',
@@ -80,9 +80,9 @@ export default {
           switch (res.data.result) {
             case 1:
               console.log("获取账户信息成功！");
-              // setTimeout(() => {
-              //   this.$loading.hide();
-              // }, 0);
+              setTimeout(() => {
+                this.$loading.hide();
+              }, 0);
               self.form.email = res.data.email
               self.form.game_num = res.data.game_num
               self.imgUrl = require(res.data.profile_photo)

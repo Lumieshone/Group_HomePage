@@ -2,9 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomePage from '../views/HomePage.vue'
 import AccountInfo from '../views/AccountInfo.vue'
-import Profile from '../views/Profile.vue'
-import Safety from '../views/Safety.vue'
-import Friends from '../views/Friends.vue'
+import Profile from '../views/SelfProfile.vue'
+import Safety from '../views/SafetySet.vue'
+import Friends from '../views/FriendsList.vue'
 Vue.use(VueRouter)
 
 const routes = [

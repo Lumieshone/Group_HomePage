@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import loading from './loading.vue';
+import loading from './LoadingSet.vue';
 //使用extend创建的是一个组件构造器
 const loadingConstructor = Vue.extend(loading);
 //实例化组并创建一个div

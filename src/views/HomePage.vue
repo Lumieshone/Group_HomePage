@@ -82,17 +82,19 @@ export default {
         .then( res => {
           switch(res.data.result){
                 case 1:
-                      alert("信息初始化成功！");
-                      break;
+                  alert("信息初始化成功！");
+                  break;
                 case 0:
-                      alert("信息初始化失败！");
-                      break;
+                  alert("信息初始化失败！");
+                  break;
                 case -1:
-                      alert("获取数据出现问题！");
-                      break;
+                  alert("获取数据出现问题！");
+                  break;
           }
           self.form.status = res.data.status
           self.iframeData.password = res.data.password
+          self.iframeData.profile_photo = require(res.data.profile_photo)
+          console.log(res.data.profile_photo)
         })
         .catch( err => {
           console.log(err);

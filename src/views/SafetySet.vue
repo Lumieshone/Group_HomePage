@@ -28,7 +28,7 @@
 import EditMail from './EditMail';
 import EditPwd from './EditPwd';
 export default {
-  name: "Safety",
+  name: "SafetySet",
   data() {
     return {
       iframeData: {

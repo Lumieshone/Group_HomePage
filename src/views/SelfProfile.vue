@@ -49,7 +49,7 @@ export function getZero(num){
   return num;
 }
 export default {
-  name: "Profile",
+  name: "SelfProfile",
   data() {
     return {
       iframeData: {

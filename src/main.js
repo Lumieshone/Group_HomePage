@@ -6,7 +6,7 @@ import 'vue-layer/lib/vue-layer.css';
 import axios from 'axios';
 import store from './store';
 import './assets/font/iconfont.css';
-import loading from './components/loading/loading.js';
+import loading from './components/LoadingSet/loading.js';
 
 Vue.use(loading);
 Vue.config.productionTip = false;

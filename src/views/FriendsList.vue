@@ -3,7 +3,7 @@
 
 <script>
 export default {
-  name: "Friends"
+  name: "FriendsList"
 }
 </script>
 
