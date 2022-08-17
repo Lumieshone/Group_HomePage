@@ -28,7 +28,7 @@ export default {
   z-index: 300;
   text-align: center;
   color: #fff;
-  background: #fff;
+  background: #f7f7f7;
   border-radius: 0.08rem;
   overflow: hidden;
 }

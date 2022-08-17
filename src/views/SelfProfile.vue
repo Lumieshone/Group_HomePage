@@ -1,42 +1,45 @@
+<!--2053382 范珑骁-->
 <template>
   <div class="profilePage">
-    <div class="top-text">简介</div>
-    <div class="explainList">
-      <div class="part">
-        <span class="label-title">昵称</span>
-        <span class="label-content">{{iframeData.name}}</span>
-        <div class="edit-button">
-          <button class="layui-btn  layui-btn-normal  layui-btn-sm" @click="edit()">
-            编辑
-          </button>
+    <el-card>
+      <div class="top-text">简介</div>
+      <div class="explainList">
+        <div class="part">
+          <span class="label-title">昵称</span>
+          <span class="label-content">{{iframeData.name}}</span>
+          <div class="edit-button">
+            <button class="layui-btn  layui-btn-normal  layui-btn-sm" @click="edit()">
+              编辑
+            </button>
+          </div>
+        </div>
+        <div class="part">
+          <span class="label-title">生日</span>
+          <span class="label-content">{{iframeData.birthday}}</span>
+          <div class="edit-button">
+            <button class="layui-btn  layui-btn-normal  layui-btn-sm" @click="edit()">
+              编辑
+            </button>
+          </div>
+        </div>
+        <div class="part">
+          <span class="label-title">地区</span>
+          <span class="label-content">{{iframeData.area}}</span>
+          <div class="edit-button">
+            <button class="layui-btn  layui-btn-normal  layui-btn-sm" @click="edit()">编辑</button>
+          </div>
+        </div>
+        <div class="part">
+          <span class="label-title">自我介绍</span>
+          <span class="label-content" id="intro">{{iframeData.intro}}</span>
+          <div class="edit-button">
+            <button class="layui-btn  layui-btn-normal  layui-btn-sm" @click="edit()">
+              编辑
+            </button>
+          </div>
         </div>
       </div>
-      <div class="part">
-        <span class="label-title">生日</span>
-        <span class="label-content">{{iframeData.birthday}}</span>
-        <div class="edit-button">
-          <button class="layui-btn  layui-btn-normal  layui-btn-sm" @click="edit()">
-            编辑
-          </button>
-        </div>
-      </div>
-      <div class="part">
-        <span class="label-title">地区</span>
-        <span class="label-content">{{iframeData.area}}</span>
-        <div class="edit-button">
-          <button class="layui-btn  layui-btn-normal  layui-btn-sm" @click="edit()">编辑</button>
-        </div>
-      </div>
-      <div class="part">
-        <span class="label-title">自我介绍</span>
-        <span class="label-content">{{iframeData.intro}}</span>
-        <div class="edit-button">
-          <button class="layui-btn  layui-btn-normal  layui-btn-sm" @click="edit()">
-            编辑
-          </button>
-        </div>
-      </div>
-    </div>
+    </el-card>
   </div>
 </template>
 
@@ -69,7 +72,7 @@ export default {
       this.$layer.iframe({
         type: 2,
         title: "个人信息",
-        area: ['360px', '500px'],
+        area: ['360px', '530px'],
         shade: true,
         offset: 'auto',
         content: {
@@ -98,7 +101,7 @@ export default {
               console.log("获取个人信息成功！");
               setTimeout(() => {
                 this.$loading.hide();
-              }, 0);
+              }, 100);
               self.iframeData.name = res.data.name
               let date = new Date(res.data.birthday.replace(/\//g, "-")),
                   Y = date.getFullYear(),
@@ -128,12 +131,15 @@ export default {
   margin: 0;
   padding: 0;
 }
+.el-card{
+  margin: 40px 150px 40px 100px;
+}
 .top-text{
-  margin:40px 120px 0;
+  margin:10px 50px 0;
   font-size: 25px;
 }
 .explainList{
-  margin: 20px 120px;
+  margin: 20px 50px;
   text-align: left;
   font-size: 20px;
   vertical-align: middle;
@@ -144,7 +150,7 @@ export default {
 .part{
   padding: 20px;
   margin: 10px;
-  width: 70%;
+  width: 90%;
   border-bottom: .1rem solid;
   border-bottom-color: #e6e6e6;
   display: flex;
@@ -159,6 +165,15 @@ export default {
 }
 .label-content{
   font-weight: 700;
+}
+#intro{
+  height: 10%;
+  width:50%;
+  display: inline-block;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  word-break: break-all;
+  overflow: hidden;
 }
 button{
   width: 60px;

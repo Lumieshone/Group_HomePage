@@ -1,30 +1,42 @@
+<!--2053382 范珑骁-->
 <template>
   <div class="AccountPage">
-    <div class="top-text">您的信息</div>
-    <div class="AccountList">
-      <div class="part" id="photo">
-        <span class="label-title">头像</span>
-        <img class="picture_item" :src= "imgUrl" alt="默认头像" />
-        <div id="image">
-          <!--上传图片的按钮-->
-          <button class="btn" @click="toggleShow">设置头像</button>
-          <!--组件主体-->
-          <my-upload ref="uploadRef" field="img" v-model="show" @crop-success="cropSuccess" :width="200" :height="200" img-format="png" :size="size"></my-upload>
+    <el-card>
+      <div class="top-text">您的信息</div>
+      <div class="AccountList">
+        <div class="part" id="photo">
+          <span class="label-title">头像</span>
+          <img class="picture_item" :src= "imgUrl" alt="默认头像" />
+          <div id="image">
+            <!--上传图片的按钮-->
+            <button class="btn" @click="toggleShow">设置头像</button>
+            <!--组件主体-->
+            <my-upload
+                ref="uploadRef"
+                field="ProfilePhoto"
+                v-model="show"
+                @crop-success="cropSuccess"
+                :width="300"
+                :height="300"
+                img-format="jpg"
+                :size="size">
+            </my-upload>
+          </div>
+        </div>
+        <div class="part" key="id">
+          <span class="label-title">账户ID</span>
+          <span class="label-content">{{iframeData.id}}</span>
+        </div>
+        <div class="part" key="email">
+          <span class="label-title">电子邮箱</span>
+          <span class="label-content">{{form.email}}</span>
+        </div>
+        <div class="part" key="game-num">
+          <span class="label-title">游戏数量</span>
+          <span class="label-content">{{form.game_num}}</span>
         </div>
       </div>
-      <div class="part" key="id">
-        <span class="label-title">账户ID</span>
-        <span class="label-content">{{iframeData.id}}</span>
-      </div>
-      <div class="part" key="email">
-        <span class="label-title">电子邮箱</span>
-        <span class="label-content">{{form.email}}</span>
-      </div>
-      <div class="part" key="game-num">
-        <span class="label-title">游戏数量</span>
-        <span class="label-content">{{form.game_num}}</span>
-      </div>
-    </div>
+    </el-card>
   </div>
 </template>
 
@@ -36,7 +48,7 @@ export default {
   inject: ['updateAvatar'],
   data(){
     return {
-      imgUrl: require('../assets/avatar.png'),
+      imgUrl: require('../assets/avatar_4.jpg'),
       show: false,  //剪切框显示和隐藏的flag
       size:2.1,
       form:{
@@ -63,10 +75,31 @@ export default {
       this.imgUrl = imgDataUrl;
       this.updateAvatar(imgDataUrl);
       console.log(imgDataUrl)//这里打印出来的是base64格式的资源
-      this.$refs.uploadRef.off()
+      this.$refs.uploadRef.off();
+      this.$axios({
+        method: 'post',
+        url: 'api/user/uploadAvatar',
+        data: {
+          id: this.iframeData.id,
+          imgUrl: this.imgUrl
+        }
+      })
+          .then(res => {
+            switch (res.data.result) {
+              case 1:
+                console.log("头像上传成功！");
+                break;
+              case 0:
+                console.log("头像上传失败！");
+                break;
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          })
     }
   },
-  created() {
+  mounted() {
     const self = this;
     this.$loading.show();
     self.$axios({
@@ -82,10 +115,10 @@ export default {
               console.log("获取账户信息成功！");
               setTimeout(() => {
                 this.$loading.hide();
-              }, 0);
+              }, 100);
               self.form.email = res.data.email
               self.form.game_num = res.data.game_num
-              self.imgUrl = require(res.data.profile_photo)
+              self.imgUrl = require('../../../ExGame-Asset/User/'+ self.iframeData.id + '/ProfilePhoto.jpg')
               break;
             case 0:
               console.log("获取账户信息失败！");
@@ -108,11 +141,14 @@ export default {
   padding: 0;
 }
 .top-text{
-  margin:40px 120px 0;
+  margin:10px 50px 0;
   font-size: 25px;
 }
+.el-card{
+  margin: 40px 150px 40px 100px;
+}
 .AccountList{
-  margin: 20px 120px;
+  margin: 20px 50px;
   text-align: left;
   font-size: 20px;
   vertical-align: middle;
@@ -146,14 +182,14 @@ button:hover{
   background-color: #F5F5F5;
 }
 .picture_item{
-  width: 25%;
-  height: 25%;
+  width: 18%;
+  height: 18%;
   position: relative;
 }
 .part{
   padding: 20px;
   margin: 10px;
-  width: 70%;
+  width: 90%;
   border-bottom: .1rem solid;
   border-bottom-color: #e6e6e6;
   display: flex;

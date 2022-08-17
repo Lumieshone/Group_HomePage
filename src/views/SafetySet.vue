@@ -1,26 +1,29 @@
+<!--2053382 范珑骁-->
 <template>
   <div class="Safety">
-    <div class="top-text">安全</div>
-    <div class="explainList">
-      <div class="part">
-        <span class="label-title">邮箱</span>
-        <span class="label-content">{{iframeData.email}}</span>
-        <div class="edit-button">
-          <button class="layui-btn  layui-btn-normal  layui-btn-sm" @click="editmail()">
-            修改
-          </button>
+    <el-card>
+      <div class="top-text">安全</div>
+      <div class="explainList">
+        <div class="part">
+          <span class="label-title">邮箱</span>
+          <span class="label-content">{{iframeData.email}}</span>
+          <div class="edit-button">
+            <button class="layui-btn  layui-btn-normal  layui-btn-sm" @click="editmail()">
+              修改
+            </button>
+          </div>
+        </div>
+        <div class="part">
+          <span class="label-title">密码</span>
+          <span class="label-content">{{iframeData.star}}</span>
+          <div class="edit-button">
+            <button class="layui-btn  layui-btn-normal  layui-btn-sm" @click="editpwd()">
+              修改
+            </button>
+          </div>
         </div>
       </div>
-      <div class="part">
-        <span class="label-title">密码</span>
-        <span class="label-content">{{iframeData.star}}</span>
-        <div class="edit-button">
-          <button class="layui-btn  layui-btn-normal  layui-btn-sm" @click="editpwd()">
-            修改
-          </button>
-        </div>
-      </div>
-    </div>
+    </el-card>
   </div>
 </template>
 
@@ -93,7 +96,7 @@ export default {
               console.log("获取安全信息成功！");
               setTimeout(() => {
                 this.$loading.hide();
-              }, 0);
+              }, 100);
               self.iframeData.email = res.data.email;
               self.iframeData.password = res.data.password;
               // 循环遍历拿到密钥的长度
@@ -121,11 +124,14 @@ export default {
 
 <style scoped>
 .top-text{
-  margin:40px 120px 0;
+  margin:10px 50px 0;
   font-size: 25px;
 }
+.el-card{
+  margin: 40px 150px 40px 100px;
+}
 .explainList{
-  margin: 20px 120px;
+  margin: 20px 50px;
   text-align: left;
   font-size: 20px;
   vertical-align: middle;
@@ -136,7 +142,7 @@ export default {
 .part{
   padding: 20px;
   margin: 10px;
-  width: 70%;
+  width: 90%;
   border-bottom: .1rem solid;
   border-bottom-color: #e6e6e6;
   display: flex;

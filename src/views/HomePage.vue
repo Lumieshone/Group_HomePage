@@ -1,3 +1,4 @@
+<!--2053382 范珑骁-->
 <template>
   <div class = "home-page">
     <!-- 1.header头部 -->
@@ -14,7 +15,7 @@
         <!-- 头像和id、状态 -->
         <div class="top-item">
           <div class="head-portrait">
-            <img :src="iframeData.profile_photo" alt="默认头像" />
+            <img :src="this.iframeData.profile_photo" alt="默认头像" />
           </div>
           <div class="head-text">ID：{{iframeData.id}}<br/>状态：
             <span v-if="form.status===0">离线</span>
@@ -35,11 +36,14 @@
           <li><router-link class="lead-button" active-class="active" :to="{name:'safety',params:{id:this.iframeData.id}}">
             <span class="iconfont icon-lock-full"></span>安全设置
           </router-link></li>
-          <li><router-link class="lead-button" active-class="active" to="/friends">
+          <li><router-link class="lead-button" active-class="active" :to="{name:'friends',params:{id:this.iframeData.id}}">
             <span class="iconfont icon-haoyou"></span>好友列表
           </router-link></li>
+          <li><router-link class="lead-button" active-class="active" :to="{name:'message',params:{id:this.iframeData.id}}">
+            <span class="iconfont icon-xiaoxi"></span>消息中心
+          </router-link></li>
         </div>
-        <button class="logout">登出</button>
+        <button class="logout" @click="logout">登出</button>
       </div>
     </div>
   </div>
@@ -59,18 +63,42 @@ export default {
         status: 3,
       },
       iframeData:{
-        id: '114514',
+        id: '0000000012',
         password: '',
-        profile_photo: require('../assets/avatar.png')
+        profile_photo: require('../assets/avatar_4.jpg')
       }
     }
   },
   methods: {
     updateAvatar(ImgUrl){
       this.iframeData.profile_photo = ImgUrl
+    },
+    logout(){
+      const self = this;
+      self.$axios({
+        method:'post',
+        url: 'api/user/logout',
+        data: {
+          id:self.iframeData.id
+        }
+      })
+          .then( res => {
+            switch(res.data.result){
+              case 1:
+                alert("登出成功！");
+                break;
+              case 0:
+                alert("登出失败！");
+                break;
+            }
+            self.form.status = 0
+          })
+          .catch( err => {
+            console.log(err);
+          })
     }
   },
-  created() {
+  mounted() {
     const self = this;
     self.$axios({
       method:'post',
@@ -93,8 +121,7 @@ export default {
           }
           self.form.status = res.data.status
           self.iframeData.password = res.data.password
-          self.iframeData.profile_photo = require(res.data.profile_photo)
-          console.log(res.data.profile_photo)
+          self.iframeData.profile_photo = require('../../../ExGame-Asset/User/' + self.iframeData.id +'/ProfilePhoto.jpg')
         })
         .catch( err => {
           console.log(err);
@@ -136,13 +163,13 @@ export default {
   }
   .conculor{
     float: left;
-    height: 650px;
+    height: 750px;
     position: relative;
   }
   /*侧边栏*/
   .left{
     width: 300px;
-    background-color: #F5F5F5;
+    background-color: #F0F0F0;
     margin-left: -100%;
     left: -300px;
     position: relative;
@@ -178,11 +205,11 @@ export default {
     background-color: #E3E7EA;
   }
   #account{
-    margin: 20px 0 25px;
+    margin: 5px 0 10px;
   }
 
   .lead-button{
-    margin: 10px 0 25px;
+    margin: 10px 0 10px;
     padding: 25px;
     display: block;
     color: #000;
@@ -192,7 +219,7 @@ export default {
 
   .logout{
     min-width: 60px;
-    margin: 0 100px;
+    margin: 10px 100px;
     width: 30%;
     height: 40px;
     outline: none;
@@ -211,6 +238,6 @@ export default {
   }
   .content{
     width: 100%;
-    background-color: #fff;
+    background-color: #f7f7f7;
   }
 </style>

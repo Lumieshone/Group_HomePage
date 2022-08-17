@@ -1,3 +1,4 @@
+<!--2053382 范珑骁-->
 <template>
   <div class="editprofile container">
     <form class="form">
@@ -9,7 +10,7 @@
         <label>地区</label>
         <input type="text" required placeholder="请填写您所在的地区" autocomplete="off" class="form-area" v-model="form.area">
         <label>自我介绍</label>
-        <input type="text" required placeholder="请填写您的自我介绍" autocomplete="off" class="form-intro" v-model="form.intro">
+        <textarea required placeholder="请填写您的自我介绍" autocomplete="off" class="form-intro" v-model="form.intro"></textarea>
       </div>
       <button type="submit" @click="editProfile" class="btn btn-info">立即提交</button>
     </form>
@@ -111,14 +112,23 @@ input{
   width: 150%;
   height: 150%;
 }
-input.form-intro{
-  height:150%;
+.form-intro{
+  padding: 8px 20px 60px 20px;
+  border-color: #c8c8c8;
+  background-color: #fff;
+  border-radius: 2px;
+  border-style: solid;
+  border-width: 2px;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  width: 150%;
+  height: 150%;
 }
 button{
   width: 80px;
   height: 40px;
   margin-left: 110px;
-  margin-top:40px;
+  margin-top:25px;
   white-space: normal;
   border: 1px solid #c8c8c8;
   box-sizing: border-box;
