@@ -82,7 +82,7 @@ export default {
   },
   created() {
     const self = this;
-    this.$loading.show();
+    // this.$loading.show();
     self.$axios({
       method: 'post',
       url: 'api/user/getUserInfo',
@@ -94,9 +94,9 @@ export default {
           switch (res.data.result) {
             case 1:
               console.log("获取安全信息成功！");
-              setTimeout(() => {
-                this.$loading.hide();
-              }, 100);
+              // setTimeout(() => {
+              //   this.$loading.hide();
+              // }, 100);
               self.iframeData.email = res.data.email;
               self.iframeData.password = res.data.password;
               // 循环遍历拿到密钥的长度
@@ -111,8 +111,11 @@ export default {
               console.log("获取安全信息失败！");
               break;
             case -1:
-              console.log("获取数据出现问题！");
+              alert("获取数据出现问题！");
               break;
+            case -2:
+              alert("数据库连接失败！");
+              break
           }
         })
         .catch(err => {
@@ -125,15 +128,15 @@ export default {
 <style scoped>
 .top-text{
   margin:10px 50px 0;
-  font-size: 25px;
+  font-size: 20px;
 }
 .el-card{
-  margin: 40px 150px 40px 100px;
+  margin: 40px 100px;
 }
 .explainList{
-  margin: 20px 50px;
+  margin: 20px 40px;
   text-align: left;
-  font-size: 20px;
+  font-size: 17px;
   vertical-align: middle;
   display: flex;
   flex-direction: column;
@@ -159,10 +162,11 @@ export default {
   font-weight: 700;
 }
 button{
-  width: 60px;
+  width: 55px;
   height: 40px;
   line-height: 1rem;
   white-space: normal;
+  font-size: 12px;
   border: thin solid #c8c8c8;
   box-sizing: border-box;
   border-radius: 2px;

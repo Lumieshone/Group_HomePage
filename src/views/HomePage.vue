@@ -36,11 +36,8 @@
           <li><router-link class="lead-button" active-class="active" :to="{name:'safety',params:{id:this.iframeData.id}}">
             <span class="iconfont icon-lock-full"></span>安全设置
           </router-link></li>
-          <li><router-link class="lead-button" active-class="active" :to="{name:'friends',params:{id:this.iframeData.id}}">
+          <li><router-link class="lead-button" active-class="active" :to="{name:'friends',params:{id:this.iframeData.id,name:this.iframeData.name,avatar:this.iframeData.profile_photo}}">
             <span class="iconfont icon-haoyou"></span>好友列表
-          </router-link></li>
-          <li><router-link class="lead-button" active-class="active" :to="{name:'message',params:{id:this.iframeData.id}}">
-            <span class="iconfont icon-xiaoxi"></span>消息中心
           </router-link></li>
         </div>
         <button class="logout" @click="logout">登出</button>
@@ -60,12 +57,13 @@ export default {
   data(){
     return {
       form:{
-        status: 3,
+        status: 1,
       },
       iframeData:{
         id: '0000000012',
         password: '',
-        profile_photo: require('../assets/avatar_4.jpg')
+        name:'院士金',
+        profile_photo: require('../assets/avatar.jpg')
       }
     }
   },
@@ -86,12 +84,13 @@ export default {
             switch(res.data.result){
               case 1:
                 alert("登出成功！");
+                self.form.status = 0
+                // this.$router.push({name:'login'})
                 break;
               case 0:
                 alert("登出失败！");
                 break;
             }
-            self.form.status = 0
           })
           .catch( err => {
             console.log(err);
@@ -109,34 +108,39 @@ export default {
     })
         .then( res => {
           switch(res.data.result){
-                case 1:
-                  alert("信息初始化成功！");
-                  break;
-                case 0:
-                  alert("信息初始化失败！");
-                  break;
-                case -1:
-                  alert("获取数据出现问题！");
-                  break;
+            case 1:
+              alert("信息初始化成功！");
+              break;
+            case 0:
+              alert("信息初始化失败！");
+              break;
+            case -1:
+              alert("获取数据出现问题！");
+              break;
+            case -2:
+              alert("数据库连接失败！");
+              break
           }
           self.form.status = res.data.status
           self.iframeData.password = res.data.password
-          self.iframeData.profile_photo = require('../../../ExGame-Asset/User/' + self.iframeData.id +'/ProfilePhoto.jpg')
+          self.iframeData.name = res.data.name
+          // self.iframeData.profile_photo = require('../../../ExGame-Asset/User/' + self.iframeData.id +'/ProfilePhoto.jpg')
         })
         .catch( err => {
           console.log(err);
         })
+    this.$router.push({name:'account',params:{id:this.iframeData.id}})
   }
 }
 </script>
 
 <style scoped>
   .home-page{
-    margin: 0;
     padding: 0;
   }
   body{
     min-width: 650px;
+    position: fixed;
   }
   /* 头部 */
   .header{
@@ -160,10 +164,12 @@ export default {
   .container{
     padding: 0 0 0 300px;
     overflow: hidden;
+    margin: 10px 200px 100px;
+    border-radius: 30px;
+    border: 8px solid #c8c8c8;
   }
   .conculor{
     float: left;
-    height: 750px;
     position: relative;
   }
   /*侧边栏*/
@@ -175,6 +181,7 @@ export default {
     position: relative;
   }
   .head-portrait{
+    margin-top: 10px;
     float: left;
     width: 30%;
   }
@@ -183,7 +190,7 @@ export default {
     padding: 20px 0 20px 38px;
   }
   .head-text{
-    padding: 40px 0 0 30px;
+    padding: 50px 0 0 30px;
     word-break: break-all;
     font-style: italic;
     word-wrap: break-word;
@@ -192,11 +199,14 @@ export default {
   }
   .side-choice{
     width: 100%;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: normal;
     float: left;
     list-style-type: none;
     overflow: auto;
+  }
+  #account{
+    margin-top: 10px;
   }
   .active{
     background-color: #DCDCDC;
@@ -204,22 +214,20 @@ export default {
   li:hover{
     background-color: #E3E7EA;
   }
-  #account{
-    margin: 5px 0 10px;
-  }
-
   .lead-button{
-    margin: 10px 0 10px;
-    padding: 25px;
+    margin: 0;
+    padding: 33px;
     display: block;
     color: #000;
     text-align: center;
     text-decoration: none;
+    border-bottom: 5px solid;
+    border-bottom-color: #F0F0F0;
   }
 
   .logout{
     min-width: 60px;
-    margin: 10px 100px;
+    margin: 31px 110px;
     width: 30%;
     height: 40px;
     outline: none;
@@ -238,6 +246,5 @@ export default {
   }
   .content{
     width: 100%;
-    background-color: #f7f7f7;
   }
 </style>

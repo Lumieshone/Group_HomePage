@@ -48,7 +48,7 @@ export default {
   inject: ['updateAvatar'],
   data(){
     return {
-      imgUrl: require('../assets/avatar_4.jpg'),
+      imgUrl: require('../assets/avatar.jpg'),
       show: false,  //剪切框显示和隐藏的flag
       size:2.1,
       form:{
@@ -74,14 +74,26 @@ export default {
       //  imgDataUrl其实就是图片的base64data码
       this.imgUrl = imgDataUrl;
       this.updateAvatar(imgDataUrl);
-      console.log(imgDataUrl)//这里打印出来的是base64格式的资源
+      //这里对base64串进行操作，去掉url头，并转换为byte
+      let bytes = window.atob(imgDataUrl.split(',')[1]);
+      let array = [];
+      for(let i = 0; i < bytes.length; i++){
+        array.push(bytes.charCodeAt(i));
+      }
+      let file = new File([new Uint8Array(array)], 'ProfilePhoto.jpg',{type: 'image/jpeg'});
+      let fd = new FormData();
+      fd.append('id',this.iframeData.id)
+      fd.append('avatar',file);
+      for (let [a, b] of fd.entries()) {
+        console.log(a, b)
+      }
       this.$refs.uploadRef.off();
       this.$axios({
         method: 'post',
         url: 'api/user/uploadAvatar',
-        data: {
-          id: this.iframeData.id,
-          imgUrl: this.imgUrl
+        data: fd,
+        headers: {
+          'Content-Type': 'multipart/form-data'
         }
       })
           .then(res => {
@@ -101,7 +113,7 @@ export default {
   },
   mounted() {
     const self = this;
-    this.$loading.show();
+    // this.$loading.show();
     self.$axios({
       method: 'post',
       url: 'api/user/getUserInfo',
@@ -113,19 +125,22 @@ export default {
           switch (res.data.result) {
             case 1:
               console.log("获取账户信息成功！");
-              setTimeout(() => {
-                this.$loading.hide();
-              }, 100);
+              // setTimeout(() => {
+              //   this.$loading.hide();
+              // }, 100);
               self.form.email = res.data.email
               self.form.game_num = res.data.game_num
-              self.imgUrl = require('../../../ExGame-Asset/User/'+ self.iframeData.id + '/ProfilePhoto.jpg')
+              // self.imgUrl = require('../../../ExGame-Asset/User/'+ self.iframeData.id + '/ProfilePhoto.jpg')
               break;
             case 0:
               console.log("获取账户信息失败！");
               break;
             case -1:
-              console.log("获取数据出现问题！");
+              alert("获取数据出现问题！");
               break;
+            case -2:
+              alert("数据库连接失败！");
+              break
           }
         })
         .catch(err => {
@@ -142,15 +157,15 @@ export default {
 }
 .top-text{
   margin:10px 50px 0;
-  font-size: 25px;
+  font-size: 20px;
 }
 .el-card{
-  margin: 40px 150px 40px 100px;
+  margin: 40px 100px;
 }
 .AccountList{
-  margin: 20px 50px;
+  margin: 20px 40px;
   text-align: left;
-  font-size: 20px;
+  font-size: 17px;
   vertical-align: middle;
   display: flex;
   flex-direction: column;
@@ -166,9 +181,10 @@ export default {
   font-weight: 700;
 }
 button{
-  width: 80px;
+  width: 70px;
   height: 40px;
   line-height: 1.8rem;
+  font-size: 12px;
   white-space: normal;
   border: thin solid #c8c8c8;
   box-sizing: border-box;

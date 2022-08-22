@@ -5,7 +5,6 @@ import AccountInfo from '../views/AccountInfo.vue'
 import Profile from '../views/SelfProfile.vue'
 import Safety from '../views/SafetySet.vue'
 import Friends from '../views/FriendsList.vue'
-import Message from '../views/MessageCenter'
 Vue.use(VueRouter)
 
 const routes = [
@@ -15,32 +14,24 @@ const routes = [
     component: HomePage,
     children:[
       {
-        path: 'account',
+        path: '/account/:id',
         name: 'account',
         component: AccountInfo
       },
       {
-        path: 'profile',
+        path: '/profile/:id',
         name: 'profile',
         component: Profile
       },
       {
-        path: 'safety',
+        path: '/safety/:id',
         name: 'safety',
-        component: Safety,
-        meta:{
-          requireAuth: true
-        }
+        component: Safety
       },
       {
-        path: 'friends',
+        path: '/friends/:id',
         name: 'friends',
         component: Friends
-      },
-      {
-        path: 'message',
-        name: 'message',
-        component: Message
       }
     ]
   }

@@ -70,6 +70,12 @@ export default {
           case 0:
             console.log("修改个人信息失败！");
             break;
+          case -1:
+            alert("传送数据出现问题！");
+            break;
+          case -2:
+            alert("数据库连接失败！");
+            break
         }
         });
         e.preventDefault()

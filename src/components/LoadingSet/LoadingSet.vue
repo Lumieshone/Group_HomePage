@@ -23,8 +23,8 @@ export default {
   height:100%;
   min-width: 2rem;
   position: fixed;
-  left: 309px;
-  top: 70px;
+  left: 407px;
+  top: 65px;
   z-index: 300;
   text-align: center;
   color: #fff;

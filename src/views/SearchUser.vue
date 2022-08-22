@@ -34,12 +34,12 @@
           fixed
           prop="id"
           label="用户id"
-          width="200">
+          width="140">
       </el-table-column>
       <el-table-column
           prop="profile_photo"
           label="头像"
-          width="180">
+          width="120">
         <template slot-scope="scope">
           <img :src="scope.row.profile_photo" width="60" height="60" @error="defImg"/>
         </template>
@@ -47,7 +47,7 @@
       <el-table-column
           prop="name"
           label="昵称"
-          width="180">
+          width="130">
       </el-table-column>
       <el-table-column
           fixed="right"
@@ -148,10 +148,10 @@ export default {
                 console.log("查找成功！");
                 self.tableData_2[0].id = uid;
                 self.tableData_2[0].name = res.data.name;
-                self.tableData_2[0].profile_photo = require('../../../ExGame-Asset/User/' + uid +'/ProfilePhoto.jpg');
+                // self.tableData_2[0].profile_photo = require('../../../ExGame-Asset/User/' + uid +'/ProfilePhoto.jpg');
                 self.tableData = self.tableData_2
                 this.tableData.splice(1.0)//刷新表格视图
-                self.form.profile_photo = require('../../../ExGame-Asset/User/' + uid +'/ProfilePhoto.jpg');
+                // self.form.profile_photo = require('../../../ExGame-Asset/User/' + uid +'/ProfilePhoto.jpg');
                 self.form.id = uid;
                 self.form.name = res.data.name;
                 self.form.email = res.data.email;
@@ -166,8 +166,11 @@ export default {
                 this.$layer.msg("不存在该用户！");
                 break;
               case -1:
-                console.log("获取数据出现问题！");
+                alert("获取数据出现问题！");
                 break;
+              case -2:
+                alert("数据库连接失败！");
+                break
             }
           })
           .catch(err => {
@@ -209,6 +212,9 @@ export default {
                 console.log("好友添加失败！");
                 this.$layer.msg("好友添加失败！");
                 break;
+              case -1:
+                alert("数据库连接失败！");
+                break
             }
           })
           .catch(err => {
