@@ -24,7 +24,7 @@
           v-model="inputMsg"
           height="520px"
           width="100%"
-          :taleList="taleList"
+          :taleList="listData"
           :toolConfig="tool"
           :config="config"
           scrollType="scroll"
@@ -40,49 +40,55 @@ export function formatNum(num){
   return num < 10 ? "0" + num : num
 }
 
-let listData = [
-  {
-    date: "2022/08/14 21:18:56",
-    text: {
-      text: "在吗？",
-    },
-    mine: false,
-    name: "Sakuzyo",
-    img: require("../assets/avatar_2.jpg"),
-  },
-  {
-    date: "2022/08/14 21:19:07",
-    text: {
-      text: "睡了吗？",
-    },
-    mine: false,
-    name: "Sakuzyo",
-    img: require("../assets/avatar_2.jpg"),
-  },
-  {
-    date: "2022/08/14 21:20:14",
-    text: {
-      text: "还没睡，在打原神",
-    },
-    mine: true,
-    name: "院士金",
-    img: require("../assets/avatar.jpg")
-  },
-  {
-    date: "2022/08/14 21:20:25",
-    text: {
-      text: "火速v我30充个小月卡",
-    },
-    mine: true,
-    name: "院士金",
-    img: require("../assets/avatar.jpg")
-  }
-];
+// let listData = [
+//   {
+//     date: "2022/08/14 21:18:56",
+//     text: {
+//       text: "在吗？",
+//     },
+//     mine: false,
+//     name: "Sakuzyo",
+//     img: require("../assets/avatar_2.jpg"),
+//   },
+//   {
+//     date: "2022/08/14 21:19:07",
+//     text: {
+//       text: "睡了吗？",
+//     },
+//     mine: false,
+//     name: "Sakuzyo",
+//     img: require("../assets/avatar_2.jpg"),
+//   },
+//   {
+//     date: "2022/08/14 21:20:14",
+//     text: {
+//       text: "还没睡，在打原神",
+//     },
+//     mine: true,
+//     name: "院士金",
+//     img: require("../assets/avatar.jpg")
+//   },
+//   {
+//     date: "2022/08/14 21:20:25",
+//     text: {
+//       text: "火速v我30充个小月卡",
+//     },
+//     mine: true,
+//     name: "院士金",
+//     img: require("../assets/avatar.jpg")
+//   }
+// ];
 export default {
   name: "MessageCenter",
   props:{
     chat:{
       type: Object,
+      default: () => {
+        return {};
+      }
+    },
+    listData:{
+      type: Array,
       default: () => {
         return {};
       }
@@ -96,11 +102,8 @@ export default {
   data() {
     return {
       timeDate:new Date(),
-      DialogVisible: true,
       // 输入框中的文字
       inputMsg: "",
-      // 会话内容
-      taleList: [],
       // 工具栏配置
       tool: {
         show: ['file'],
@@ -148,15 +151,14 @@ export default {
         name: this.chat.name_A,
         img: this.chat.avatar_A,
       };
-      this.taleList.push(msgObj);
+      this.listData.push(msgObj);
       // 发送请求
-      self.$axios({
+      this.$axios({
         method: 'post',
         url: 'api/user/postChatHistory',
         data: {
           id_A: this.chat.id_A,
           id_B: this.chat.id_B,
-          date: msgObj.date,
           text: msgObj.text.text
         }
       })
@@ -192,44 +194,6 @@ export default {
   },
   mounted() {
     let self = this;
-    // 发送请求
-    self.$axios({
-      method: 'post',
-      url: 'api/user/getChatHistory',
-      data: {
-        id_A: this.chat.id_A,
-        id_B: this.chat.id_B
-      }
-    })
-        .then(res => {
-          switch (res.data.result) {
-            case 1:
-              console.log("获取聊天历史成功！");
-              listData = res.data.chat_history;
-              for(let num = 0;num < listData.length;num++){
-                listData[num].text.text = res.data.chat_history[num].text
-                if(listData[num].mine){
-                  listData[num].img = this.chat.avatar_A
-                  listData[num].name = this.chat.name_A
-                }
-                else{
-                  listData[num].img = this.chat.avatar_B
-                  listData[num].name = this.chat.name_B
-                }
-              }
-              break;
-            case 0:
-              console.log("获取聊天历史失败！");
-              break;
-            case -1:
-              alert("数据库连接失败！");
-              break
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        })
-    self.taleList = listData;
     // 实时-时间-计时
     let timer = setInterval(function(){
       self.timeDate = new Date()

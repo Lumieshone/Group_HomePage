@@ -23,7 +23,6 @@ export default {
       password_old: '',
       password_new: '',
       form: {
-        star: '',
         id: this.iframeData.id,
         email: this.iframeData.email,
         password: '',
@@ -53,12 +52,13 @@ export default {
       if(!this.form.password || !this.password_old || !this.password_new){
         this.$layer.msg("请添加对应信息！")
       }else{
-        if((this.password_old === this.lydata.iframeData.password) && (this.password_new === this.form.password)){
+        if(this.password_new === this.form.password){
           this.$axios({
             method:'post',
             url: 'api/user/editPassword',
             data: {
               id: this.form.id,
+              password_old: this.form.password_old,
               password: this.form.password
             }
           })
@@ -66,13 +66,6 @@ export default {
           switch (res.data.result) {
             case 1:
               console.log("修改密码成功！");
-              // 循环遍历拿到密钥的长度
-              for (let i = 0; i < this.form.password.length; i++) {
-                let star = this.form.star.split('') //分割成字符串数组
-                star.splice(i, i, '•') //添加到数组
-                this.form.star = star.join('') //将数组转换为字符串
-              }
-              this.$parent.$data.iframeData = Object.assign({}, this.form);
               this.$layer.close(this.layerid);
               this.$layer.msg("修改密码成功！");
               break;
@@ -83,13 +76,10 @@ export default {
               alert("传送数据出现问题！");
               break;
             case -2:
-              alert("数据库连接失败！");
-              break
+              this.$layer.msg("您输入的旧密码有误，请重新输入！");
+              break;
           }
           });
-        }
-        else if(this.password_old !== this.lydata.iframeData.password){
-          this.$layer.msg("您输入的旧密码有误，请重新输入！");
         }
         else{
           this.$layer.msg("两次输入新密码不一致，请重新输入！");

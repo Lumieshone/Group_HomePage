@@ -15,7 +15,7 @@
         </div>
         <div class="part">
           <span class="label-title">密码</span>
-          <span class="label-content">{{iframeData.star}}</span>
+          <span class="label-content">{{this.star}}</span>
           <div class="edit-button">
             <button class="layui-btn  layui-btn-normal  layui-btn-sm" @click="editpwd()">
               修改
@@ -30,15 +30,16 @@
 <script>
 import EditMail from './EditMail';
 import EditPwd from './EditPwd';
+import { showLoading, hideLoading } from '@/components/LoadingSet/loading.js';
 export default {
   name: "SafetySet",
   data() {
     return {
+      star: '',
       iframeData: {
         id: this.$route.params.id,
-        password: '',
         email:'',
-        star: ''
+
       }
     }
   },
@@ -80,9 +81,9 @@ export default {
       })
     }
   },
-  created() {
+  mounted() {
     const self = this;
-    // this.$loading.show();
+    showLoading()
     self.$axios({
       method: 'post',
       url: 'api/user/getUserInfo',
@@ -91,21 +92,17 @@ export default {
       }
     })
         .then(res => {
+          hideLoading()
           switch (res.data.result) {
             case 1:
               console.log("获取安全信息成功！");
-              // setTimeout(() => {
-              //   this.$loading.hide();
-              // }, 100);
               self.iframeData.email = res.data.email;
-              self.iframeData.password = res.data.password;
               // 循环遍历拿到密钥的长度
-              for (let i = 0; i < self.iframeData.password.length; i++) {
-                let star = self.iframeData.star.split('') //分割成字符串数组
+              for (let i = 0; i < 10; i++) {
+                let star = self.star.split('') //分割成字符串数组
                 star.splice(i, i, '•') //添加到数组
-                self.iframeData.star = star.join('') //将数组转换为字符串
+                self.star = star.join('') //将数组转换为字符串
               }
-              console.log(self.iframeData.password);
               break;
             case 0:
               console.log("获取安全信息失败！");

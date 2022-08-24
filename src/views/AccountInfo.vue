@@ -43,12 +43,13 @@
 <script>
 import 'babel-polyfill'
 import myUpload from 'vue-image-crop-upload/upload-2.vue'
+import { showLoading, hideLoading } from '@/components/LoadingSet/loading.js';
 export default {
   name: "AccountInfo",
   inject: ['updateAvatar'],
   data(){
     return {
-      imgUrl: require('../assets/avatar.jpg'),
+      imgUrl: require('../../../ExGame-Asset/User/0000000012/ProfilePhoto/ProfilePhoto.jpg'),
       show: false,  //剪切框显示和隐藏的flag
       size:2.1,
       form:{
@@ -83,7 +84,7 @@ export default {
       let file = new File([new Uint8Array(array)], 'ProfilePhoto.jpg',{type: 'image/jpeg'});
       let fd = new FormData();
       fd.append('id',this.iframeData.id)
-      fd.append('avatar',file);
+      fd.append('AvatarPicSrc',file);
       for (let [a, b] of fd.entries()) {
         console.log(a, b)
       }
@@ -113,7 +114,7 @@ export default {
   },
   mounted() {
     const self = this;
-    // this.$loading.show();
+    showLoading()
     self.$axios({
       method: 'post',
       url: 'api/user/getUserInfo',
@@ -122,15 +123,13 @@ export default {
       }
     })
         .then(res => {
+          hideLoading()
           switch (res.data.result) {
             case 1:
               console.log("获取账户信息成功！");
-              // setTimeout(() => {
-              //   this.$loading.hide();
-              // }, 100);
               self.form.email = res.data.email
               self.form.game_num = res.data.game_num
-              // self.imgUrl = require('../../../ExGame-Asset/User/'+ self.iframeData.id + '/ProfilePhoto.jpg')
+              self.imgUrl = require('../../../ExGame-Asset/User/'+ self.iframeData.id + '/ProfilePhoto/ProfilePhoto.jpg')
               break;
             case 0:
               console.log("获取账户信息失败！");

@@ -45,6 +45,7 @@
 
 <script>
 import EditProfile from './EditProfile';
+import { showLoading, hideLoading } from '@/components/LoadingSet/loading.js';
 export function getZero(num){
   if(parseInt(num) < 10){
     num = '0' + num;
@@ -87,7 +88,7 @@ export default {
   },
   created() {
     const self = this;
-    // this.$loading.show();
+    showLoading()
     self.$axios({
       method: 'post',
       url: 'api/user/getUserInfo',
@@ -96,12 +97,10 @@ export default {
       }
     })
         .then(res => {
+          hideLoading()
           switch (res.data.result) {
             case 1:
               console.log("获取个人信息成功！");
-              // setTimeout(() => {
-              //   this.$loading.hide();
-              // }, 100);
               self.iframeData.name = res.data.name
               let date = new Date(res.data.birthday.replace(/\//g, "-")),
                   Y = date.getFullYear(),

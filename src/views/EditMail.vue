@@ -45,38 +45,35 @@ export default {
       if(!this.form.email){
         this.$layer.msg("请添加对应信息！")
       }else{
-        if(this.password === this.lydata.iframeData.password){
-          this.$axios({
-            method:'post',
-            url: 'api/user/editEmail',
-            data: {
-              id: this.form.id,
-              email: this.form.email
-            }
-          })
-          .then(res => {
-          switch (res.data.result) {
-            case 1:
-              console.log("修改邮箱成功！");
-              this.$parent.$data.iframeData = Object.assign({}, this.form);
-              this.$layer.close(this.layerid);
-              this.$layer.msg("修改邮箱成功！");
-              break;
-            case 0:
-              console.log("修改邮箱失败！");
-              break;
-            case -1:
-              alert("传送数据出现问题！");
-              break;
-            case -2:
-              alert("数据库连接失败！");
-              break
+        this.$axios({
+          method:'post',
+          url: 'api/user/editEmail',
+          data: {
+            id: this.form.id,
+            email: this.form.email,
+            password: this.password
           }
-          });
+        })
+        .then(res => {
+        switch (res.data.result) {
+          case 1:
+            console.log("修改邮箱成功！");
+            this.$parent.$data.iframeData = Object.assign({}, this.form);
+            this.$layer.close(this.layerid);
+            this.$layer.msg("修改邮箱成功！");
+            break;
+          case 0:
+            console.log("修改邮箱失败！");
+            this.$layer.msg("您输入的密码有误，请重新输入！");
+            break;
+          case -1:
+            alert("传送数据出现问题！");
+            break;
+          case -2:
+            this.$layer.msg("您输入的密码有误，请重新输入！");
+            break
         }
-        else{
-          this.$layer.msg("您输入的密码有误，请重新输入！");
-        }
+        });
         e.preventDefault()
       }
       e.preventDefault()

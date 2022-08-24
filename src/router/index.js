@@ -12,24 +12,29 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomePage,
+    // redirect: to=>{
+    //   return{
+    //     name:'account'
+    //   }
+    // },
     children:[
       {
-        path: '/account/:id',
+        path: '/account',
         name: 'account',
         component: AccountInfo
       },
       {
-        path: '/profile/:id',
+        path: '/profile',
         name: 'profile',
         component: Profile
       },
       {
-        path: '/safety/:id',
+        path: '/safety',
         name: 'safety',
         component: Safety
       },
       {
-        path: '/friends/:id',
+        path: '/friends',
         name: 'friends',
         component: Friends
       }

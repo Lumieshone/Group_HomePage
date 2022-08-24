@@ -14,7 +14,7 @@
       <el-table
           :data="tableData"
           border
-          style="width: 87%"
+          style="width: 90%"
           :header-cell-style="{
           'text-align': 'center',
           background: '#F5F5F5'
@@ -84,7 +84,7 @@
         </el-table-column>
       </el-table>
       <InfoDialog :form="form" :DialogVisible="DialogVisible_1" @callBack="callBack_1"></InfoDialog>
-      <MessageCenter :chat="chat" :DialogVisible="DialogVisible_2" @callBack="callBack_2"></MessageCenter>
+      <MessageCenter :chat="chat" :listData="listData" :DialogVisible="DialogVisible_2" @callBack="callBack_2"></MessageCenter>
     </el-card>
   </div>
 </template>
@@ -93,6 +93,7 @@
 import SearchUser from './SearchUser';
 import InfoDialog from './InfoDialog';
 import MessageCenter from "@/views/MessageCenter";
+import { showLoading, hideLoading } from '@/components/LoadingSet/loading.js';
 export default {
   name: "FriendsList",
   data(){
@@ -106,6 +107,7 @@ export default {
       iframeData:{
         id: this.$route.params.id
       },
+      listData:[],
       form:{
         profile_photo:'',
         id:'',
@@ -155,6 +157,7 @@ export default {
     },
     getUsersList(uid) {
       const self = this;
+      showLoading()
       self.DialogVisible_1 = true;
       self.$axios({
         method: 'post',
@@ -164,10 +167,11 @@ export default {
         }
       })
           .then(res => {
+            hideLoading()
             switch (res.data.result) {
               case 1:
                 console.log("查找成功！");
-                // self.form.profile_photo = require('../../../ExGame-Asset/User/' + uid +'/ProfilePhoto.jpg');
+                self.form.profile_photo = require('../../../ExGame-Asset/User/' + uid +'/ProfilePhoto/ProfilePhoto.jpg');
                 self.form.id = uid;
                 self.form.name = res.data.name;
                 self.form.email = res.data.email;
@@ -227,6 +231,7 @@ export default {
         return this.$message.info('已取消删除')
       }
       // 发送删除请求
+      showLoading()
       this.$axios({
         method: 'post',
         url: 'api/user/removeFriends',
@@ -236,6 +241,7 @@ export default {
         }
       })
           .then(res => {
+            hideLoading()
             switch (res.data.result) {
               case 1:
                 console.log("好友删除成功！");
@@ -258,15 +264,54 @@ export default {
     // 根据id获取对应的消息记录
     async openChat(uid, uname, uavatar) {
       const self = this;
+      showLoading()
       self.DialogVisible_2 = true;
       self.chat.id_B = uid;
       self.chat.name_B = uname;
       self.chat.avatar_B = uavatar;
+      // 发送请求
+      self.$axios({
+        method: 'post',
+        url: 'api/user/getChatHistory',
+        data: {
+          id_A: this.chat.id_A,
+          id_B: this.chat.id_B
+        }
+      })
+          .then(res => {
+            hideLoading()
+            switch (res.data.result) {
+              case 1:
+                console.log("获取聊天历史成功！");
+                console.log(res.data.chat_history);
+                this.listData = res.data.chat_history
+                for(let num = 0;num < this.listData.length; num++){
+                  if(this.listData[num].mine){
+                    this.listData[num].img = this.chat.avatar_A
+                    this.listData[num].name = this.chat.name_A
+                  }
+                  else{
+                    this.listData[num].img = this.chat.avatar_B
+                    this.listData[num].name = this.chat.name_B
+                  }
+                }
+                console.log(this.listData)
+                break;
+              case 0:
+                console.log("获取聊天历史失败！");
+                break;
+              case -1:
+                alert("数据库连接失败！");
+                break
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          })
     },
     getFriendsList(flag){
       const self = this;
-      // if(flag === 1)
-      //   this.$loading.show();
+      showLoading()
       self.$axios({
         method: 'post',
         url: 'api/user//getFriendsList',
@@ -275,16 +320,14 @@ export default {
         }
       })
           .then(res => {
+            hideLoading()
             switch (res.data.result) {
               case 1:
                 console.log("刷新好友列表成功！");
-                // if(flag === 1)
-                //   setTimeout(() => {
-                //     this.$loading.hide();
-                //   }, 100);
                 self.tableData = res.data.friends_list;
+                console.log(self.tableData)
                 for(let num = 0;num < self.tableData.length;num++){
-                  // self.tableData[num].profile_photo = require('../../../ExGame-Asset/User/' + self.tableData[num].id +'/ProfilePhoto.jpg')
+                  self.tableData[num].profile_photo = require('../../../ExGame-Asset/User/' + self.tableData[num].id +'/ProfilePhoto/ProfilePhoto.jpg')
                   self.tableData[num].status = Boolean(self.tableData[num].status)
                 }
                 break;

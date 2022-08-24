@@ -6,7 +6,6 @@ import 'vue-layer/lib/vue-layer.css';
 import axios from 'axios';
 import store from './store';
 import './assets/font/iconfont.css';
-import loading from './components/LoadingSet/loading.js';
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import Chat from 'jwchat';
@@ -14,7 +13,6 @@ import Chat from 'jwchat';
 Vue.use(Chat)
 Vue.use(ElementUI)
 
-Vue.use(loading);
 Vue.config.productionTip = false;
 Vue.prototype.$layer = layer(Vue);
 Vue.prototype.$axios = axios;

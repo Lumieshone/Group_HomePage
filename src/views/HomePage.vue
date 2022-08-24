@@ -61,7 +61,6 @@ export default {
       },
       iframeData:{
         id: '0000000012',
-        password: '',
         name:'院士金',
         profile_photo: require('../assets/avatar.jpg')
       }
@@ -98,6 +97,7 @@ export default {
     }
   },
   mounted() {
+    this.$router.push({name:'account',params:{id:this.iframeData.id}})
     const self = this;
     self.$axios({
       method:'post',
@@ -109,7 +109,7 @@ export default {
         .then( res => {
           switch(res.data.result){
             case 1:
-              alert("信息初始化成功！");
+              console.log("信息初始化成功！");
               break;
             case 0:
               alert("信息初始化失败！");
@@ -122,14 +122,12 @@ export default {
               break
           }
           self.form.status = res.data.status
-          self.iframeData.password = res.data.password
           self.iframeData.name = res.data.name
-          // self.iframeData.profile_photo = require('../../../ExGame-Asset/User/' + self.iframeData.id +'/ProfilePhoto.jpg')
+          self.iframeData.profile_photo = require('../../../ExGame-Asset/User/' + self.iframeData.id +'/ProfilePhoto/ProfilePhoto.jpg')
         })
         .catch( err => {
           console.log(err);
         })
-    this.$router.push({name:'account',params:{id:this.iframeData.id}})
   }
 }
 </script>
