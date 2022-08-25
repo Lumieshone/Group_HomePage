@@ -2,9 +2,24 @@
 <template>
   <div class = "home-page">
     <!-- 1.header头部 -->
-    <div class="header">
-      <div class="header-text">臻Game</div>
-    </div>
+    <game-page-header></game-page-header>
+    <vue-particles
+        color="#409EFF"
+        :particleOpacity="0.7"
+        :particlesNumber="50"
+        shapeType="star"
+        :particleSize="6"
+        linesColor="#409EFF"
+        :linesWidth="1"
+        :lineLinked="true"
+        :lineOpacity="0.4"
+        :linesDistance="100"
+        :moveSpeed="1"
+        :hoverEffect="true"
+        hoverMode="grab"
+        :clickEffect="true"
+        clickMode="repulse">
+    </vue-particles>
     <!-- 2.content主体内容区 -->
     <div class="container">
       <div class="conculor content">
@@ -39,6 +54,12 @@
           <li><router-link class="lead-button" active-class="active" :to="{name:'friends',params:{id:this.iframeData.id,name:this.iframeData.name,avatar:this.iframeData.profile_photo}}">
             <span class="iconfont icon-haoyou"></span>好友列表
           </router-link></li>
+          <li><router-link class="lead-button" active-class="active" :to="{name:'myOrder',params:{id:this.iframeData.id}}">
+            <span class="iconfont icon-dingdan"></span>我的订单
+          </router-link></li>
+          <li><router-link class="lead-button" active-class="active" :to="{name:'CDKey',params:{id:this.iframeData.id}}">
+            <span class="iconfont icon-duihuanjilu2"></span>CDK兑换
+          </router-link></li>
         </div>
         <button class="logout" @click="logout">登出</button>
       </div>
@@ -47,6 +68,7 @@
 </template>
 
 <script>
+import GamePageHeader from "@/views/GamePageHeader";
 export default {
   name: "home-page",
   provide(){
@@ -54,14 +76,17 @@ export default {
       updateAvatar: this.updateAvatar
     }
   },
+  components: {
+    GamePageHeader
+  },
   data(){
     return {
       form:{
         status: 1,
       },
       iframeData:{
-        id: '0000000012',
-        name:'院士金',
+        id: this.$store.state.userID,
+        name:this.$store.state.userName,
         profile_photo: require('../assets/avatar.jpg')
       }
     }
@@ -123,7 +148,7 @@ export default {
           }
           self.form.status = res.data.status
           self.iframeData.name = res.data.name
-          self.iframeData.profile_photo = require('../../../ExGame-Asset/User/' + self.iframeData.id +'/ProfilePhoto/ProfilePhoto.jpg')
+          self.iframeData.profile_photo = require('../../../ExGame-Asset/User/' + self.iframeData.id +'/ProfilePhoto.jpg')
         })
         .catch( err => {
           console.log(err);
@@ -133,38 +158,32 @@ export default {
 </script>
 
 <style scoped>
+@import "../assets/sea_css/index-style.css";
+@import "../assets/sea_css/mixins.css";
+@import "../assets/sea_css/cards.css";
+@import "../assets/sea_css/variables.css";
+  #particles-js {
+    width: 100%;
+    height: calc(100% - 100px);
+    position: absolute;
+  }
   .home-page{
     padding: 0;
+    background-color: #121212;
+    height: 1080px;
   }
   body{
     min-width: 650px;
     position: fixed;
   }
-  /* 头部 */
-  .header{
-    width: 100%;
-    height: 50px;
-    line-height: 50px;
-    background-color: #000000;
-    text-align: center;
-    font-weight: bold;
-    max-width: 104rem;
-    min-width: 76rem;
-    position: relative;
-  }
-  .header-text{
-    color: #FFFFFF;
-    font-size: 22px;
-    left: 100px;
-    position: absolute;
-  }
   /* 主体 */
   .container{
-    padding: 0 0 0 300px;
+    padding: 0 0 0 20%;
     overflow: hidden;
-    margin: 10px 200px 100px;
+    margin: 3% 10% 4%;
     border-radius: 30px;
     border: 8px solid #c8c8c8;
+    background-color: #F7F7F7;
   }
   .conculor{
     float: left;
@@ -172,28 +191,32 @@ export default {
   }
   /*侧边栏*/
   .left{
-    width: 300px;
+    width: 35%;
     background-color: #F0F0F0;
     margin-left: -100%;
-    left: -300px;
+    left: -35%;
     position: relative;
   }
   .head-portrait{
-    margin-top: 10px;
     float: left;
     width: 30%;
   }
   .head-portrait img{
-    width: 75%;
-    padding: 20px 0 20px 38px;
+    height: 80px;
+    width: 80px;
+    object-fit: cover;/*图片完全填充*/
+    margin: 35px 0 20px 40px;
+    border: black solid 1px;
+    border-radius: 50%;
   }
   .head-text{
-    padding: 50px 0 0 30px;
+    padding: 55px 0 0 50px;
     word-break: break-all;
     font-style: italic;
     word-wrap: break-word;
     box-sizing: border-box;
     float: left;
+    color: black
   }
   .side-choice{
     width: 100%;
@@ -214,18 +237,15 @@ export default {
   }
   .lead-button{
     margin: 0;
-    padding: 33px;
+    padding: 8%;
     display: block;
     color: #000;
     text-align: center;
     text-decoration: none;
-    border-bottom: 5px solid;
-    border-bottom-color: #F0F0F0;
   }
-
   .logout{
     min-width: 60px;
-    margin: 31px 110px;
+    margin: 18px 110px;
     width: 30%;
     height: 40px;
     outline: none;

@@ -49,7 +49,7 @@ export default {
   inject: ['updateAvatar'],
   data(){
     return {
-      imgUrl: require('../../../ExGame-Asset/User/0000000012/ProfilePhoto/ProfilePhoto.jpg'),
+      imgUrl: require('../../../ExGame-Asset/User/0000000012/ProfilePhoto.jpg'),
       show: false,  //剪切框显示和隐藏的flag
       size:2.1,
       form:{
@@ -129,7 +129,7 @@ export default {
               console.log("获取账户信息成功！");
               self.form.email = res.data.email
               self.form.game_num = res.data.game_num
-              self.imgUrl = require('../../../ExGame-Asset/User/'+ self.iframeData.id + '/ProfilePhoto/ProfilePhoto.jpg')
+              self.imgUrl = require('../../../ExGame-Asset/User/'+ self.iframeData.id + '/ProfilePhoto.jpg')
               break;
             case 0:
               console.log("获取账户信息失败！");

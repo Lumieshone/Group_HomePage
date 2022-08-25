@@ -9,7 +9,9 @@ import './assets/font/iconfont.css';
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import Chat from 'jwchat';
+import VueParticles from 'vue-particles'
 
+Vue.use(VueParticles)
 Vue.use(Chat)
 Vue.use(ElementUI)
 

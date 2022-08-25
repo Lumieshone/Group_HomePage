@@ -5,6 +5,8 @@ import AccountInfo from '../views/AccountInfo.vue'
 import Profile from '../views/SelfProfile.vue'
 import Safety from '../views/SafetySet.vue'
 import Friends from '../views/FriendsList.vue'
+import MyOrder from '../views/MyOrder.vue'
+import CDKey from '../views/CDKey'
 Vue.use(VueRouter)
 
 const routes = [
@@ -37,6 +39,16 @@ const routes = [
         path: '/friends',
         name: 'friends',
         component: Friends
+      },
+      {
+        path: '/myOrder',
+        name: 'myOrder',
+        component: MyOrder
+      },
+      {
+        path: '/CDKey',
+        name: 'CDKey',
+        component: CDKey
       }
     ]
   }

@@ -6,11 +6,18 @@
   "description": "",
   "glyphs": [
     {
-      "icon_id": "15391363",
-      "name": "消息",
-      "font_class": "xiaoxi",
-      "unicode": "e61f",
-      "unicode_decimal": 58911
+      "icon_id": "736007",
+      "name": "兑换记录2",
+      "font_class": "duihuanjilu2",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "9626854",
+      "name": "订单",
+      "font_class": "dingdan",
+      "unicode": "e86b",
+      "unicode_decimal": 59499
     },
     {
       "icon_id": "12188359",

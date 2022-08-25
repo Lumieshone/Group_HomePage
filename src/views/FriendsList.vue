@@ -14,7 +14,7 @@
       <el-table
           :data="tableData"
           border
-          style="width: 90%"
+          style="width: 84%"
           :header-cell-style="{
           'text-align': 'center',
           background: '#F5F5F5'
@@ -28,12 +28,12 @@
             fixed
             prop="id"
             label="用户id"
-            width="120">
+            width="110">
         </el-table-column>
         <el-table-column
             prop="profile_photo"
             label="头像"
-            width="120">
+            width="110">
           <template slot-scope="scope">
             <img :src="scope.row.profile_photo" width="60" height="60" @error="defImg" alt="头像"/>
           </template>
@@ -41,7 +41,7 @@
         <el-table-column
             prop="name"
             label="昵称"
-            width="110">
+            width="130">
         </el-table-column>
         <el-table-column
             prop="status"
@@ -171,7 +171,7 @@ export default {
             switch (res.data.result) {
               case 1:
                 console.log("查找成功！");
-                self.form.profile_photo = require('../../../ExGame-Asset/User/' + uid +'/ProfilePhoto/ProfilePhoto.jpg');
+                self.form.profile_photo = require('../../../ExGame-Asset/User/' + uid +'/ProfilePhoto.jpg');
                 self.form.id = uid;
                 self.form.name = res.data.name;
                 self.form.email = res.data.email;
@@ -209,7 +209,7 @@ export default {
           }
         },
         cancel:()=>{//关闭事件
-          this.getFriendsList(0)
+          this.getFriendsList()
         }
       })
     },
@@ -309,7 +309,7 @@ export default {
             console.log(err);
           })
     },
-    getFriendsList(flag){
+    getFriendsList(){
       const self = this;
       showLoading()
       self.$axios({
@@ -327,7 +327,7 @@ export default {
                 self.tableData = res.data.friends_list;
                 console.log(self.tableData)
                 for(let num = 0;num < self.tableData.length;num++){
-                  self.tableData[num].profile_photo = require('../../../ExGame-Asset/User/' + self.tableData[num].id +'/ProfilePhoto/ProfilePhoto.jpg')
+                  self.tableData[num].profile_photo = require('../../../ExGame-Asset/User/' + self.tableData[num].id +'/ProfilePhoto.jpg')
                   self.tableData[num].status = Boolean(self.tableData[num].status)
                 }
                 break;
@@ -349,7 +349,7 @@ export default {
     }
   },
   mounted() {
-    this.getFriendsList(1)
+    this.getFriendsList()
   }
 }
 </script>
@@ -364,11 +364,16 @@ export default {
   font-size: 20px;
 }
 .el-table{
-  margin: 0px 0px 30px 50px;
+  margin: 0 0 30px 50px;
   font-size: small;
 }
+img{
+  object-fit: cover;/*图片完全填充*/
+  border: black solid 1px;
+  border-radius: 50%;
+}
 .el-card{
-  margin: 30px;
+  margin: 50px;
 }
 .el-row{
   margin: 30px
