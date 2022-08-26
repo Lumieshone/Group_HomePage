@@ -78,7 +78,7 @@ export default {
     showLoading()
     self.$axios({
       method: 'post',
-      url: 'api/user//getOrdersList',
+      url: 'api/user/getOrdersList',
       data: {
         id: self.iframeData.id
       }
@@ -88,10 +88,10 @@ export default {
           switch (res.data.result) {
             case 1:
               console.log("获取订单列表成功！");
-              self.tableData = res.data.orders_list;
-              console.log(self.tableData)
-              for(let num = 0;num < self.tableData.length;num++){
-                switch(res.data.orders_list[num].method){
+              self.tableData = res.data.order_list;
+              console.log(res.data.order_list);
+              for(let num = 0;num < res.data.order_list.length;num++){
+                switch(res.data.order_list[num].method){
                   case 0:
                     self.tableData[num].method = "CDK";
                     break;

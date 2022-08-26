@@ -49,7 +49,7 @@ export default {
   inject: ['updateAvatar'],
   data(){
     return {
-      imgUrl: require('../../../ExGame-Asset/User/0000000012/ProfilePhoto.jpg'),
+      imgUrl: require('../../../ExGame-Asset/User/0000000002/ProfilePhoto.jpg'),
       show: false,  //剪切框显示和隐藏的flag
       size:2.1,
       form:{

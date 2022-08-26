@@ -4,7 +4,7 @@
       <div class="top-text">CDK兑换</div>
       <el-row>
         <el-col :span="18">
-          <el-input v-model="item" placeholder="请输入CDKey兑换码"></el-input>
+          <el-input v-model="item" placeholder="请输入CDKey兑换码"  clearable></el-input>
         </el-col>
         <el-col :span="4" class="btn">
           <el-button @click="commit" type="primary" plain>兑换游戏</el-button>
@@ -15,21 +15,35 @@
 </template>
 
 <script>
+import {formatNum} from "@/views/MessageCenter";
+
 export default {
   name: "CDK",
   data() {
     return {
       item: '',
-      user_id: '0000000007'
+      user_id: this.$route.params.id,
+      timeDate:new Date(),
     }
   },
   methods: {
+    // 实时-时间-数据转换
+    formatDate(value) {
+      let year = value.getFullYear()
+      let month = formatNum(value.getMonth() + 1)
+      let day = formatNum(value.getDate())
+      let hour = formatNum(value.getHours())
+      let min = formatNum(value.getMinutes())
+      let sec = formatNum(value.getSeconds())
+      return year + "/" + month + "/" + day + " " + hour + ":" + min + ":" + sec
+    },
     commit() {
       if (this.item !== ''){
         this.$axios
             .post('api/cdk', {
               user_id: this.user_id,
-              cdk_value: this.item
+              cdk_value: this.item,
+              order_time: this.formatDate(this.timeDate)
             })
             .then(res => {
               switch(res.data.result){
@@ -49,6 +63,19 @@ export default {
       } else {
         alert("填写不能为空！");
       }
+    }
+  },
+  mounted() {
+    let self = this;
+    // 实时-时间-计时
+    let timer = setInterval(function(){
+      self.timeDate = new Date()
+    },1000)
+  },
+  // 实时-时间
+  beforeDestroy() {
+    if(this.timer){
+      clearInterval(this.timer)
     }
   }
 }

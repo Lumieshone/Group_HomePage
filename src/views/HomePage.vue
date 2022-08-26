@@ -245,7 +245,7 @@ export default {
   }
   .logout{
     min-width: 60px;
-    margin: 18px 110px;
+    margin: 15px 110px 25px;
     width: 30%;
     height: 40px;
     outline: none;
